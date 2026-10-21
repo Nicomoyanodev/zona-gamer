@@ -111,12 +111,48 @@ function titleCase(raw) {
 }
 
 // Recorre los renglones: nombre (1 o más líneas) + stock "2,00" + línea de categoría "SONY - JUEGOS PS4 NUEVOS"
+// "$ 45.990,00" / "45.990" / "45990,5" -> 45990 (formato argentino: punto = miles, coma = decimales)
+function parseMoney(t) {
+  const clean = String(t).replace(/[$\s]/g, '').replace(/^ARS/i, '');
+  if (!/^\d{1,3}(\.\d{3})*(,\d+)?$|^\d+(,\d+)?$/.test(clean)) return null;
+  const n = parseFloat(clean.replace(/\./g, '').replace(',', '.'));
+  return n > 0 ? Math.round(n) : null;
+}
+const isNumberish = t => /^\$?\s*\d[\d.,]*$/.test(String(t).trim());
+
+// Recorre los renglones: nombre (1 o más líneas) + números (stock y, si existe, precio)
+// + línea de categoría "SONY - JUEGOS PS4 NUEVOS". Las columnas se ubican por el encabezado
+// ("Producto", "Precio", "Stock"); si el PDF no tiene columna de precio, el precio queda vacío.
 function parseLines(lines, { platform, condition, file }) {
   const items = [];
-  let name = [], stock = null;
-  const isHeader = t => /Zona Gamer S\.A\.S|Av Duartes|Listado de Precios|^Producto|Powered by|^\d+ \/ \d+$/i.test(t);
+  let cols = { stock: 424 };          // posición x de cada columna (por defecto, el formato sin precios)
+  let name = [], stock = null, price = null;
+  const isHeader = t => /Zona Gamer S\.A\.S|Av Duartes|Listado de Precios|Powered by|^\d+ \/ \d+$/i.test(t);
+
+  // A qué columna numérica pertenece una celda: la de encabezado más cercana en x
+  const columnOf = x => {
+    let best = null, dist = Infinity;
+    for (const [k, cx] of Object.entries(cols)) {
+      if (k === 'producto') continue;
+      const d = Math.abs(cx - x);
+      if (d < dist) { dist = d; best = k; }
+    }
+    return dist < 90 ? best : null;
+  };
+
   for (const row of lines) {
     const text = row.map(c => c.s).join(' ');
+    // Encabezado de la tabla: guarda dónde está cada columna
+    if (/^Producto\b/i.test(text)) {
+      cols = {};
+      for (const c of row) {
+        if (/producto/i.test(c.s)) cols.producto = c.x;
+        else if (/stock|cant/i.test(c.s)) cols.stock = c.x;
+        else if (/precio|p\.?\s?venta|importe|valor|contado|efectivo|lista/i.test(c.s) && cols.precio == null) cols.precio = c.x;
+      }
+      if (cols.stock == null) cols.stock = 424;
+      continue;
+    }
     if (isHeader(text)) continue;
     // Línea de categoría: "SONY - JUEGOS PS4 NUEVOS" o "SONY - Juego Usado Ps3"
     if (/^[A-Z0-9ÁÉÍÓÚÑ ]+\s-\s*JUEGOS?\b/i.test(text)) {
@@ -129,15 +165,21 @@ function parseLines(lines, { platform, condition, file }) {
           platform: plat,
           condition: /OUTLET|OULET/i.test(raw) ? 'Usado' : condition,
           stock,
+          price,
           file,
         });
       }
-      name = []; stock = null;
+      name = []; stock = null; price = null;
       continue;
     }
     for (const c of row) {
-      if (c.x > 400 && /^\d+([.,]\d+)?$/.test(c.s)) stock = Math.round(parseFloat(c.s.replace(',', '.')));
-      else if (c.x < 400) name.push(c.s);
+      const col = isNumberish(c.s) ? columnOf(c.x) : null;
+      // Un "stock" de más de 500 unidades o con signo $ en realidad es un precio (columna con otro nombre)
+      const looksLikePrice = /\$/.test(c.s) || (parseMoney(c.s) || 0) > 500;
+      if (col === 'stock' && !looksLikePrice) stock = Math.round(parseFloat(c.s.replace(/[$\s.]/g, '').replace(',', '.')));
+      else if (col === 'stock' && looksLikePrice) price = parseMoney(c.s);
+      else if (col === 'precio') price = parseMoney(c.s);
+      else name.push(c.s);
     }
   }
   return items;
@@ -154,7 +196,7 @@ async function loadFisicos({ log = true } = {}) {
       const condition = /USAD/i.test(f.name) ? 'Usado' : 'Nuevo';
       const lines = await pdfLines(await download(f.id));
       const items = parseLines(lines, { platform, condition, file: f.name });
-      if (log) console.log(`  ${folder.name} / ${f.name}: ${items.length} juegos`);
+      if (log) console.log(`  ${folder.name} / ${f.name}: ${items.length} juegos, ${items.filter(i => i.price).length} con precio`);
       all.push(...items);
     }
   }
@@ -162,7 +204,7 @@ async function loadFisicos({ log = true } = {}) {
   const byId = new Map();
   for (const it of all) {
     const id = `fisico-${slug(it.platform)}-${slug(it.name)}-${slug(it.condition)}`;
-    if (byId.has(id)) { byId.get(id).stock += it.stock; continue; }
+    if (byId.has(id)) { const prev = byId.get(id); prev.stock += it.stock; if (prev.price == null) prev.price = it.price; continue; }
     byId.set(id, {
       id,
       name: it.name,
@@ -171,14 +213,14 @@ async function loadFisicos({ log = true } = {}) {
       type: 'fisico',
       condition: it.condition,
       stock: it.stock,
-      price: null,
+      price: it.price ?? null,
       oldPrice: null,
     });
   }
   return [...byId.values()];
 }
 
-module.exports = { loadFisicos, cleanName, parseLines, pdfLines };
+module.exports = { loadFisicos, cleanName, parseLines, pdfLines, parseMoney };
 
 if (require.main === module) {
   loadFisicos().then(list => {

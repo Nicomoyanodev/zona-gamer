@@ -185,7 +185,7 @@
     const fis = state.mode === 'fisico';
     $('#heroTitle').innerHTML = fis ? 'Juegos físicos <em>nuevos y usados</em>' : 'Juegos digitales <em>PS5 · PS4 · PS3</em> y tarjetas de saldo';
     $('#heroText').textContent = fis
-      ? 'Stock real del local en Nuevocentro Shopping. Consultá el precio por WhatsApp y te lo reservamos.'
+      ? 'Stock real del local en Nuevocentro Shopping. Pedilo por WhatsApp y te lo reservamos.'
       : 'Elegí lo que quieras, armá tu pedido y mandalo por WhatsApp. Te respondemos al toque.';
     $('#q').placeholder = fis ? 'Buscar juego físico…' : 'Buscar juego, tarjeta…';
     renderChips(tab);
@@ -312,7 +312,7 @@
     if (p.account === 'Primaria') extra += `<div class="info"><p><b>¿Qué es una cuenta primaria?</b></p><p>Te damos una cuenta con el juego comprado. La configurás como principal en tu consola, descargás el juego y lo jugás con <b>tu propio usuario</b>, con tus trofeos y partidas guardadas.</p></div>`;
     if (p.retro) extra += `<div class="info"><p><b>Retro:</b> título de la línea Retro que ofrece Sony en la tienda de PlayStation.</p></div>`;
     if (p.category === 'retro') extra += `<div class="info"><p><b>Compra mínima: 10 cartuchos</b> (podés combinar distintos títulos).</p></div>`;
-    if (p.category === 'fisicos') extra += `<div class="info"><p><b>Juego físico ${p.condition.toLowerCase()}.</b> Lo retirás en el local (Nuevocentro Shopping, Stand 1.05). Consultanos el precio por WhatsApp y te lo reservamos.</p></div>`;
+    if (p.category === 'fisicos') extra += `<div class="info"><p><b>Juego físico ${p.condition.toLowerCase()}.</b> Lo retirás en el local (Nuevocentro Shopping, Stand 1.05). ${p.price == null ? 'Consultanos el precio por WhatsApp y te lo reservamos.' : 'Pedilo por WhatsApp y te lo reservamos.'}</p></div>`;
     if (p.type === 'preventa') extra += `<div class="info"><p><b>Preventa:</b> lo reservás ahora y lo recibís el día del lanzamiento.</p></div>`;
     if (p.includes?.length) extra += `<p><b>Incluye ${p.includes.length} juegos:</b></p><ul class="includes">${p.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${(p.notes || []).map(n => `<p class="muted">${esc(n)}</p>`).join('')}`;
     const vid = videoFor(p);
@@ -475,7 +475,7 @@
     return `¡Hola Zona Gamer! Quiero hacer este pedido:\n\n${lines.join('\n')}\n\n${totalLine}\n\n(Pedido desde la web)`;
   }
   function askText(p) {
-    if (p.category === 'fisicos') return `¡Hola Zona Gamer! Quería consultar el precio de:\n\n• ${p.name} (${lineSub(p)})\n\n¿Lo tienen disponible?`;
+    if (p.category === 'fisicos' && p.price == null) return `¡Hola Zona Gamer! Quería consultar el precio de:\n\n• ${p.name} (${lineSub(p)})\n\n¿Lo tienen disponible?`;
     if (p.price == null) return `¡Hola Zona Gamer! Quería consultar por: ${p.name} (${p.platform}).`;
     return `¡Hola Zona Gamer! Quiero comprar:\n\n• ${p.name} (${lineSub(p)}) — ${money(p.price)}\n\n¿Está disponible?`;
   }
