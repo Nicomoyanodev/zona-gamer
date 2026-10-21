@@ -65,6 +65,21 @@ async function main() {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify({ updated: new Date().toISOString(), products, promos, infos }));
   console.log(`Listo: ${path.relative(ROOT, OUT)} (${Math.round(fs.statSync(OUT).size / 1024)} KB)`);
+  stampAssets();
+}
+
+// Cloudflare guarda app.js y styles.css por horas: se agrega ?v=<hash> para que
+// cuando cambian, los navegadores bajen la versión nueva enseguida.
+function stampAssets() {
+  const crypto = require('crypto');
+  const pub = path.join(ROOT, 'public');
+  const file = path.join(pub, 'index.html');
+  let html = fs.readFileSync(file, 'utf8');
+  for (const asset of ['styles.css', 'app.js']) {
+    const v = crypto.createHash('md5').update(fs.readFileSync(path.join(pub, asset))).digest('hex').slice(0, 8);
+    html = html.replace(new RegExp(`(["'])${asset.replace('.', '\\.')}(\\?v=[\\w]+)?\\1`), `$1${asset}?v=${v}$1`);
+  }
+  fs.writeFileSync(file, html);
 }
 
 main().catch(e => { console.error(e.message); process.exit(1); });
