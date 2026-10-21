@@ -450,3 +450,27 @@ body.choosing { overflow: hidden; }
 .alt-title { margin: 0 0 4px; font-size: 17px; }
 .alt-title span { color: var(--green); font-weight: 700; }
 .alt-head .muted { margin: 0; }
+
+/* ---------- Cuotas sin interés ---------- */
+.cuotas-strip { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 7px 12px; text-align: center;
+  background: var(--red); color: #fff; font: 700 12px/1.2 var(--display); letter-spacing: 1px; text-transform: uppercase; }
+.cuotas-strip svg { width: 18px; flex-shrink: 0; fill: currentColor; }
+.cuotas-strip b { background: #fff; color: var(--red); padding: 2px 8px; border-radius: 5px; margin-left: 4px; white-space: nowrap; }
+.cuotas-strip.fis { background: var(--gold-grad); color: #1a1000; }
+.cuotas-strip.fis b { background: #000; color: #f5e08a; }
+
+.cuotas-badge { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 12px; padding: 6px 14px 6px 8px; border-radius: 10px;
+  background: var(--red); color: #fff; box-shadow: 0 0 24px rgba(255, 0, 0, .4); transform: rotate(-2deg); }
+.cuotas-badge b { font: 800 34px/1 var(--display); }
+.cuotas-badge span { font: 700 11px/1.15 var(--display); letter-spacing: 1px; text-transform: uppercase; text-align: left; }
+.cuotas-badge.fis { background: var(--gold-grad); color: #1a1000; box-shadow: 0 0 24px rgba(217, 166, 58, .4); }
+
+.cuota { font-size: 12px; color: var(--green); margin-top: -2px; }
+.cuota b { font-weight: 700; }
+@media (max-width: 640px) {
+  .cuotas-strip { font-size: 10.5px; letter-spacing: .5px; padding: 6px 8px; }
+  .cuotas-badge b { font-size: 28px; }
+  .cuota { font-size: 11px; }
+}
+.hero .cuotas-badge b { font-size: 38px; font-weight: 800; line-height: 1; }
+@media (max-width: 640px) { .hero .cuotas-badge b { font-size: 30px; } }

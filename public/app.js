@@ -2,6 +2,9 @@
 (() => {
   const WHATSAPP = '5493513845195';
   const PAGE = 48;
+  // Cuotas sin interés por tipo de juego
+  const CUOTAS = { digital: 3, fisico: 6 };
+  const cuotasDe = p => (p.category === 'fisicos' ? CUOTAS.fisico : ['juegos', 'preventas'].includes(p.category) ? CUOTAS.digital : 0);
   const SEGA_MIN = 10; // compra mínima de cartuchos Sega (según el proveedor)
 
   const $ = s => document.querySelector(s);
@@ -169,6 +172,7 @@
         <h3 class="card-title">${esc(p.name)}</h3>
         <div class="card-sub">${esc(subtitle(p))}</div>
         <div class="price-row">${price}</div>
+        ${priced && cuotasDe(p) ? `<div class="cuota">${cuotasDe(p)} cuotas sin interés de <b>${money(p.price / cuotasDe(p))}</b></div>` : ''}
         <div class="card-actions">
           ${p.soldOut ? '<button class="btn ghost" disabled>Agotado</button>' : `
           <a class="btn wa" data-act="ask" href="${waLink(askText(p))}" target="_blank" rel="noopener">${priced ? 'Pedir' : 'Consultar'}</a>
@@ -183,6 +187,12 @@
     $('#tabs').innerHTML = TABS.filter(t => modeOf(t) === state.mode).map(t => `<button class="tab" data-tab="${t.id}" aria-current="${t.id === state.tab}">${t.label}</button>`).join('');
     document.querySelectorAll('.mode-btn').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === state.mode)));
     const fis = state.mode === 'fisico';
+    const nC = fis ? CUOTAS.fisico : CUOTAS.digital;
+    const card = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Zm1 2v2h16V7H4Zm0 5v5h16v-5H4Zm2 2h5v1.5H6V14Z"/></svg>';
+    $('#cuotasStrip').innerHTML = `${card}<span>Todos los juegos ${fis ? 'físicos' : 'digitales'} <b>${nC} cuotas sin interés</b></span>`;
+    $('#cuotasStrip').classList.toggle('fis', fis);
+    $('#cuotasBadge').innerHTML = `<b>${nC}</b><span>cuotas<br>sin interés</span>`;
+    $('#cuotasBadge').classList.toggle('fis', fis);
     $('#heroTitle').innerHTML = fis ? 'Juegos físicos <em>nuevos y usados</em>' : 'Juegos digitales <em>PS5 · PS4 · PS3</em> y tarjetas de saldo';
     $('#heroText').textContent = fis
       ? 'Stock real del local en Nuevocentro Shopping. Pedilo por WhatsApp y te lo reservamos.'
