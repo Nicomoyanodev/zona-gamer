@@ -195,6 +195,10 @@
     $('#howto').hidden = !isPage;
     if (isPage) { $('#promos').hidden = true; renderHowto(); return; }
 
+    const searching = !!state.q;
+    $('#hero').hidden = searching;
+    $('#searchHead').hidden = !searching;
+
     const promosEl = $('#promos');
     const showPromos = tab.promos || (state.tab === 'todo' && !state.q && !state.chips.size);
     promosEl.hidden = !showPromos || !DATA.promos.length;
@@ -211,9 +215,42 @@
     $('#notice').hidden = state.tab !== 'retro';
     list = filtered();
     $('#grid').innerHTML = list.slice(0, state.shown).map(cardHTML).join('');
-    $('#count').textContent = `${list.length.toLocaleString('es-AR')} producto${list.length === 1 ? '' : 's'}`;
+    $('#count').textContent = searching ? '' : `${list.length.toLocaleString('es-AR')} producto${list.length === 1 ? '' : 's'}`;
+    if (searching) renderSearchHead();
     $('#more').hidden = list.length <= state.shown;
     $('#empty').hidden = list.length > 0;
+  }
+
+  // Encabezado de resultados: cantidad, promos que incluyen el juego y resultados en la otra sección
+  function renderSearchHead() {
+    const n = list.length;
+    $('#searchTitle').innerHTML = n
+      ? `<b>${n.toLocaleString('es-AR')}</b> resultado${n === 1 ? '' : 's'} para <b>“${esc(state.q)}”</b>`
+      : `No encontramos <b>“${esc(state.q)}”</b> en ${state.mode === 'fisico' ? 'juegos físicos' : 'juegos digitales'}`;
+    const words = norm(state.q).split(' ');
+    const hints = [];
+    if (state.mode === 'digital') {
+      const promos = DATA.promos.filter(pr => pr.games.some(g => words.every(w => norm(g.name).includes(w))));
+      if (promos.length) hints.push(`<div class="hint promo-hint"><span>🔥 También en promo:</span>${promos.map(pr => `<button class="mini" data-promo="${esc(pr.id)}">${pr.pick}x1 ${pr.platform} · ${money(pr.price)}</button>`).join('')}</div>`);
+    }
+    const other = state.mode === 'fisico' ? 'digital' : 'fisico';
+    const inOther = DATA.products.filter(p => (p.category === 'fisicos') === (other === 'fisico') && words.every(w => p._s.includes(w))).length;
+    if (inOther) hints.push(`<div class="hint"><span>También en ${other === 'fisico' ? 'físicos' : 'digitales'}:</span><button class="mini" data-switch="${other}">Ver ${inOther} resultado${inOther === 1 ? '' : 's'}</button></div>`);
+    $('#searchHints').innerHTML = hints.join('');
+  }
+
+  function clearSearch() {
+    $('#q').value = '';
+    state.q = '';
+    state.shown = PAGE;
+    syncQueryParam();
+    render();
+  }
+
+  function syncQueryParam() {
+    const url = new URL(location.href);
+    if (state.q) url.searchParams.set('q', state.q); else url.searchParams.delete('q');
+    history.replaceState(null, '', url);
   }
 
   function renderChips(tab) {
@@ -227,6 +264,7 @@
       const seen = new Set();
       for (const p of DATA.products) if (p.category === 'codigos' && !seen.has(p.brand)) { seen.add(p.brand); chips.push(['brand:' + p.brand, (GC[p.brand] || [p.platform])[0].replace(' V-Bucks', '')]); }
     }
+    if (state.q) chips.length = 0;
     $('#chips').innerHTML = chips.map(([k, l]) => `<button class="chip" data-chip="${esc(k)}" aria-pressed="${state.chips.has(k)}">${esc(l)}</button>`).join('');
   }
 
@@ -443,13 +481,21 @@
 
   function setTab(id, { scroll = true } = {}) {
     state.tab = id; state.chips = new Set(); state.shown = PAGE;
-    history.replaceState(null, '', '#' + id);
+    if (state.q) { state.q = ''; $('#q').value = ''; }
+    history.replaceState(null, '', location.pathname + '#' + id);
     render();
     if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   document.addEventListener('click', e => {
     const t = e.target;
+    const sw = t.closest('[data-switch]');
+    if (sw) {
+      const q = state.q;
+      setMode(sw.dataset.switch);
+      $('#q').value = q; state.q = q; syncQueryParam(); render();
+      return;
+    }
     const modeBtn = t.closest('[data-mode]');
     if (modeBtn) { if (modeBtn.dataset.mode !== state.mode || !$('#chooser').hidden) setMode(modeBtn.dataset.mode); return; }
     const tab = t.closest('[data-tab]');
@@ -514,11 +560,17 @@
     qT = setTimeout(() => {
       state.q = e.target.value.trim();
       state.shown = PAGE;
-      const cur = TABS.find(t => t.id === state.tab);
-      if (state.q && (cur.promos || cur.page)) state.tab = state.mode === 'fisico' ? 'f-todo' : 'todo';
+      if (state.q) { state.tab = state.mode === 'fisico' ? 'f-todo' : 'todo'; state.chips = new Set(); }
+      syncQueryParam();
       render();
+      window.scrollTo({ top: 0 });
     }, 150);
   });
+  $('#q').addEventListener('keydown', e => {
+    if (e.key === 'Enter') e.target.blur();
+    if (e.key === 'Escape' && state.q) clearSearch();
+  });
+  $('#clearQ').addEventListener('click', clearSearch);
   $('#sort').addEventListener('change', e => { state.sort = e.target.value; state.shown = PAGE; render(); });
   $('#more').addEventListener('click', more);
   document.querySelector('.logo').addEventListener('click', e => { e.preventDefault(); $('#chooser').hidden = false; document.body.classList.add('choosing'); });
@@ -556,10 +608,13 @@
         p._rank = (p.image ? 3 : 0) + (p.oldPrice ? 2 : 0) + (p.type === 'preventa' ? 1 : 0) - (p.soldOut ? 5 : 0) - (p.price == null ? 1 : 0);
       }
       if (d.updated) $('#updated').textContent = 'Precios y stock actualizados: ' + new Date(d.updated).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+      const qParam = new URLSearchParams(location.search).get('q');
       const fromHash = location.hash.slice(1);
       const hashTab = TABS.find(t => t.id === fromHash);
       if (hashTab) { state.tab = hashTab.id; state.mode = modeOf(hashTab); }
+      else if (qParam) { state.mode = store.get('zg-mode', 'digital'); state.tab = state.mode === 'fisico' ? 'f-todo' : 'todo'; }
       else { $('#chooser').hidden = false; document.body.classList.add('choosing'); }
+      if (qParam) { state.q = qParam.trim(); $('#q').value = state.q; }
       render();
       drawCart();
       loadVideos(); // para mostrar el video de canje en la ficha de cada tarjeta

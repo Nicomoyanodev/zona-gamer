@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=26f67341">
+  <link rel="stylesheet" href="styles.css?v=19ef35bf">
 </head>
 <body>
   <header class="top">
@@ -59,6 +59,13 @@
     <section id="howto" class="howto" hidden></section>
 
     <div id="catalog">
+    <div class="search-head" id="searchHead" hidden>
+      <div class="search-head-row">
+        <p id="searchTitle"></p>
+        <button class="clear-q" id="clearQ">✕ Borrar</button>
+      </div>
+      <div id="searchHints"></div>
+    </div>
     <div class="toolbar">
       <div class="chips" id="chips"></div>
       <select id="sort" aria-label="Ordenar">
@@ -139,6 +146,6 @@
   <div class="scrim" id="scrim" hidden></div>
   <div class="toast" id="toast" role="status"></div>
 
-  <script src="app.js?v=caf1c503"></script>
+  <script src="app.js?v=7dc4e909"></script>
 </body>
 </html>
