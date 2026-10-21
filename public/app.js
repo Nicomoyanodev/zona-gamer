@@ -24,6 +24,7 @@
     { id: 'tarjetas', label: 'Tarjetas y saldo', filter: p => p.category === 'codigos' },
     { id: 'accesorios', label: 'Accesorios', filter: p => p.category === 'accesorios' },
     { id: 'retro', label: 'Sega retro', filter: p => p.category === 'retro' },
+    { id: 'instalar', label: '▶ Cómo instalar', page: 'howto' },
   ];
 
   const GC = {
@@ -46,6 +47,7 @@
   let DATA = { products: [], promos: [], infos: {} };
   let state = { tab: 'todo', q: '', sort: 'rel', chips: new Set(), shown: PAGE };
   let cart = store.get('zg-cart', []);
+  let lastOrder = null; // pedido recién enviado, para reabrir WhatsApp o recuperarlo
   let list = [];
 
   /* ---------- Imágenes ---------- */
@@ -166,6 +168,11 @@
     const tab = TABS.find(t => t.id === state.tab);
     $('#tabs').innerHTML = TABS.map(t => `<button class="tab" data-tab="${t.id}" aria-current="${t.id === state.tab}">${t.label}</button>`).join('');
     renderChips(tab);
+
+    const isPage = !!tab.page;
+    $('#catalog').hidden = isPage;
+    $('#howto').hidden = !isPage;
+    if (isPage) { $('#promos').hidden = true; renderHowto(); return; }
 
     const promosEl = $('#promos');
     const showPromos = tab.promos || (state.tab === 'todo' && !state.q && !state.chips.size);
@@ -290,6 +297,36 @@
       </div>`;
   }
 
+  /* ---------- Cómo instalar ---------- */
+  let VIDEOS = null;
+  function ytId(url) {
+    const m = String(url || '').match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/);
+    return m ? m[1] : null;
+  }
+  function renderHowto() {
+    const el = $('#howto');
+    if (!VIDEOS) {
+      el.innerHTML = '<p class="count">Cargando videos…</p>';
+      fetch('tutoriales/videos.json', { cache: 'no-cache' }).then(r => r.json())
+        .then(d => { VIDEOS = d.videos || []; })
+        .catch(() => { VIDEOS = []; })
+        .then(() => { if (state.tab === 'instalar') renderHowto(); });
+      return;
+    }
+    const cards = VIDEOS.map(v => {
+      const id = ytId(v.youtube);
+      const media = id
+        ? `<button class="yt" data-yt="${id}" aria-label="Reproducir: ${esc(v.titulo)}"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><span class="yt-play" aria-hidden="true"></span></button>`
+        : '<div class="yt soon"><span>Video próximamente</span></div>';
+      return `<article class="video-card">${media}<div class="video-body"><span class="plat ${esc(v.consola)}" style="position:static">${esc(v.consola)}</span><h3>${esc(v.titulo)}</h3></div></article>`;
+    }).join('');
+    el.innerHTML = `
+      <h2 class="section-title">Cómo instalar tu juego</h2>
+      <p class="count">Elegí tu consola y seguí el video paso a paso. Cuando compres, te mandamos por WhatsApp los datos de la cuenta.</p>
+      <div class="videos">${cards || '<p class="empty">Pronto vas a encontrar acá los videos.</p>'}</div>
+      <div class="howto-help"><p>¿Te trabaste en algún paso? Te ayudamos.</p><a class="btn wa" target="_blank" rel="noopener" href="${waLink('¡Hola Zona Gamer! Necesito ayuda para instalar un juego.')}">Pedir ayuda por WhatsApp</a></div>`;
+  }
+
   /* ---------- Carrito ---------- */
   function saveCart() { store.set('zg-cart', cart); drawCart(); }
   function addToCart(p) {
@@ -320,6 +357,7 @@
     $('#cartWarn').hidden = !segaShort;
     if (segaShort) $('#cartWarn').textContent = `Cartuchos Sega: la compra mínima es de ${SEGA_MIN}. Llevás ${sega}, sumá ${SEGA_MIN - sega} más para poder enviar el pedido.`;
     $('#sendOrder').disabled = !cart.length || segaShort;
+    $('#sentBox').hidden = !(lastOrder && !cart.length);
   }
   function orderText() {
     const lines = cart.map(x => `• ${x.qty > 1 ? x.qty + 'x ' : ''}${x.name}${x.sub ? ` (${x.sub})` : ''} — ${money(x.price * x.qty)}`);
@@ -391,6 +429,11 @@
       toast('Promo agregada al pedido');
       return;
     }
+    const yt = t.closest('[data-yt]');
+    if (yt) {
+      yt.outerHTML = `<div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${yt.dataset.yt}?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
+      return;
+    }
     const q = t.closest('[data-q]');
     if (q) {
       const it = cart[+q.dataset.q];
@@ -419,8 +462,17 @@
   $('#cartBtn').addEventListener('click', () => openCart(true));
   $('#closeCart').addEventListener('click', () => openCart(false));
   $('#scrim').addEventListener('click', () => openCart(false));
-  $('#clearCart').addEventListener('click', () => { cart = []; saveCart(); });
-  $('#sendOrder').addEventListener('click', () => window.open(waLink(orderText()), '_blank', 'noopener'));
+  $('#clearCart').addEventListener('click', () => { cart = []; lastOrder = null; saveCart(); });
+  // Al enviar: se abre WhatsApp y el carrito se vacía (se puede reabrir o recuperar)
+  $('#sendOrder').addEventListener('click', () => {
+    const text = orderText();
+    window.open(waLink(text), '_blank', 'noopener');
+    lastOrder = { text, items: cart };
+    cart = [];
+    saveCart();
+  });
+  $('#resend').addEventListener('click', e => { e.preventDefault(); if (lastOrder) window.open(waLink(lastOrder.text), '_blank', 'noopener'); });
+  $('#restore').addEventListener('click', e => { e.preventDefault(); if (lastOrder) { cart = lastOrder.items; lastOrder = null; saveCart(); } });
 
   // Carga automática al llegar al final
   new IntersectionObserver(es => { if (es[0].isIntersecting && !$('#more').hidden) more(); }, { rootMargin: '600px' }).observe($('#more'));

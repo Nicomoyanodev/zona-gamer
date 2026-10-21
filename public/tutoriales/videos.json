@@ -1,0 +1,8 @@
+{
+  "_ayuda": "Pegá el link de YouTube de cada video en 'youtube'. Si está vacío, la web muestra 'Video próximamente'.",
+  "videos": [
+    { "consola": "PS5", "titulo": "Cómo instalar tu juego en PS5", "youtube": "" },
+    { "consola": "PS4", "titulo": "Cómo instalar tu juego en PS4", "youtube": "" },
+    { "consola": "PS3", "titulo": "Cómo instalar tu juego en PS3", "youtube": "" }
+  ]
+}

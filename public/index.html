@@ -50,6 +50,9 @@
       </a>
     </section>
 
+    <section id="howto" class="howto" hidden></section>
+
+    <div id="catalog">
     <div class="toolbar">
       <div class="chips" id="chips"></div>
       <select id="sort" aria-label="Ordenar">
@@ -66,6 +69,7 @@
     <section id="grid" class="grid" aria-live="polite"></section>
     <div class="more"><button class="btn ghost" id="more" hidden>Ver más</button></div>
     <p class="empty" id="empty" hidden>No encontramos nada con esa búsqueda. Probá con otro nombre o <a id="emptyWa" target="_blank" rel="noopener">consultanos por WhatsApp</a>.</p>
+    </div>
   </main>
 
   <footer class="foot">
@@ -97,6 +101,10 @@
     <div class="drawer-body" id="cartItems"></div>
     <div class="drawer-foot">
       <p class="warn" id="cartWarn" hidden></p>
+      <div class="sent" id="sentBox" hidden>
+        <p><b>¡Pedido enviado!</b> Te respondemos por WhatsApp.</p>
+        <p class="muted">¿No se abrió WhatsApp? <a href="#" id="resend">Abrir de nuevo</a> · <a href="#" id="restore">Recuperar el pedido</a></p>
+      </div>
       <div class="total"><span>Total</span><strong id="cartTotal">$0</strong></div>
       <button class="btn wa block" id="sendOrder">Enviar pedido por WhatsApp</button>
       <button class="btn ghost block" id="clearCart">Vaciar</button>

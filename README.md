@@ -23,6 +23,7 @@ Web con todos los productos del proveedor, con portadas y pedido directo por Wha
 - **Ganancia:** `MARGIN` en `scripts/parse.js` (2 = 100%).
 - **WhatsApp:** `WHATSAPP` en `public/app.js` y el texto del pie en `public/index.html`.
 - **Logo y colores:** logo en `public/img/` (sacado del manual de marca). Colores en `:root` de `public/styles.css`: rojo #FF0000, verde #00FF00, dorado, negro, blanco y gris #808080.
+- **Videos de "Cómo instalar":** pegar los links de YouTube en `public/tutoriales/videos.json`.
 - **Portada equivocada o faltante:** agregarla en `data/image-overrides.json`, por ejemplo:
   ```json
   { "Crash Bandicoot Quadrilogy": "https://link-a-la-imagen.jpg" }
