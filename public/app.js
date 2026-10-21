@@ -229,6 +229,8 @@
     if (p.category === 'retro') extra += `<div class="info"><p><b>Compra mínima: 10 cartuchos</b> (podés combinar distintos títulos).</p></div>`;
     if (p.type === 'preventa') extra += `<div class="info"><p><b>Preventa:</b> lo reservás ahora y lo recibís el día del lanzamiento.</p></div>`;
     if (p.includes?.length) extra += `<p><b>Incluye ${p.includes.length} juegos:</b></p><ul class="includes">${p.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${(p.notes || []).map(n => `<p class="muted">${esc(n)}</p>`).join('')}`;
+    const vid = videoFor(p);
+    if (vid) extra += `<div class="detail-video"><p><b>Ver cómo se canjea:</b></p>${ytButton(ytId(vid.youtube), vid.titulo)}</div>`;
     const info = DATA.infos[p.infoKey];
     if (info?.length) extra += `<div class="info">${info.map(t => `<p>${esc(t)}</p>`).join('')}</div>`;
     const priced = p.price != null;
@@ -303,28 +305,46 @@
     const m = String(url || '').match(/(?:youtu\.be\/|v=|\/shorts\/|\/embed\/|\/live\/)([\w-]{11})/);
     return m ? m[1] : null;
   }
+  let videosReq = null;
+  function loadVideos() {
+    videosReq = videosReq || fetch('tutoriales/videos.json', { cache: 'no-cache' }).then(r => r.json())
+      .then(d => { VIDEOS = d.videos || []; })
+      .catch(() => { VIDEOS = []; });
+    return videosReq;
+  }
+  function ytButton(id, title) {
+    return `<button class="yt" data-yt="${id}" aria-label="Reproducir: ${esc(title)}"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><span class="yt-play" aria-hidden="true"></span></button>`;
+  }
+  function videoCard(v) {
+    const id = ytId(v.youtube);
+    const media = id ? ytButton(id, v.titulo) : '<div class="yt soon"><span>Video próximamente</span></div>';
+    return `<article class="video-card">${media}<div class="video-body"><span class="plat ${esc(v.consola)}" style="position:static">${esc(v.consola)}</span><h3>${esc(v.titulo)}</h3>${v.descripcion ? `<p class="muted">${esc(v.descripcion)}</p>` : ''}</div></article>`;
+  }
+  // Video de canje que corresponde a una tarjeta (PS Plus usa el de PlayStation)
+  function videoFor(p) {
+    if (!VIDEOS || p.category !== 'codigos') return null;
+    const brand = p.brand === 'psplus' ? 'psn' : p.brand;
+    return VIDEOS.find(v => v.marca === brand && ytId(v.youtube)) || null;
+  }
   function renderHowto() {
     const el = $('#howto');
     if (!VIDEOS) {
       el.innerHTML = '<p class="count">Cargando videos…</p>';
-      fetch('tutoriales/videos.json', { cache: 'no-cache' }).then(r => r.json())
-        .then(d => { VIDEOS = d.videos || []; })
-        .catch(() => { VIDEOS = []; })
-        .then(() => { if (state.tab === 'instalar') renderHowto(); });
+      loadVideos().then(() => { if (state.tab === 'instalar') renderHowto(); });
       return;
     }
-    const cards = VIDEOS.map(v => {
-      const id = ytId(v.youtube);
-      const media = id
-        ? `<button class="yt" data-yt="${id}" aria-label="Reproducir: ${esc(v.titulo)}"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><span class="yt-play" aria-hidden="true"></span></button>`
-        : '<div class="yt soon"><span>Video próximamente</span></div>';
-      return `<article class="video-card">${media}<div class="video-body"><span class="plat ${esc(v.consola)}" style="position:static">${esc(v.consola)}</span><h3>${esc(v.titulo)}</h3>${v.descripcion ? `<p class="muted">${esc(v.descripcion)}</p>` : ''}</div></article>`;
-    }).join('');
+    const of = s => VIDEOS.filter(v => (v.seccion || 'instalar') === s).map(videoCard).join('');
+    const install = of('instalar'), redeem = of('canjear');
     el.innerHTML = `
-      <h2 class="section-title">Cómo instalar tu juego</h2>
+      <nav class="howto-nav"><a href="#" data-jump="h-instalar">Instalar juegos</a><a href="#" data-jump="h-canjear">Canjear tarjetas y códigos</a></nav>
+      <h2 class="section-title" id="h-instalar">Cómo instalar tu juego</h2>
       <p class="count">Elegí tu consola y seguí el video paso a paso. Cuando compres, te mandamos por WhatsApp los datos de la cuenta.</p>
-      <div class="videos">${cards || '<p class="empty">Pronto vas a encontrar acá los videos.</p>'}</div>
-      <div class="howto-help"><p>¿Te trabaste en algún paso? Te ayudamos.</p><a class="btn wa" target="_blank" rel="noopener" href="${waLink('¡Hola Zona Gamer! Necesito ayuda para instalar un juego.')}">Pedir ayuda por WhatsApp</a></div>`;
+      <div class="videos">${install || '<p class="empty">Pronto vas a encontrar acá los videos.</p>'}</div>
+      ${redeem ? `
+      <h2 class="section-title" id="h-canjear" style="margin-top:34px">Cómo canjear tarjetas y códigos</h2>
+      <p class="count">Te mandamos el código por WhatsApp. Estos videos muestran dónde ingresarlo en cada plataforma.</p>
+      <div class="videos">${redeem}</div>` : ''}
+      <div class="howto-help"><p>¿Te trabaste en algún paso? Te ayudamos.</p><a class="btn wa" target="_blank" rel="noopener" href="${waLink('¡Hola Zona Gamer! Necesito ayuda para instalar un juego o canjear un código.')}">Pedir ayuda por WhatsApp</a></div>`;
   }
 
   /* ---------- Carrito ---------- */
@@ -429,6 +449,8 @@
       toast('Promo agregada al pedido');
       return;
     }
+    const jump = t.closest('[data-jump]');
+    if (jump) { e.preventDefault(); document.getElementById(jump.dataset.jump)?.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
     const yt = t.closest('[data-yt]');
     if (yt) {
       yt.outerHTML = `<div class="yt"><iframe src="https://www.youtube-nocookie.com/embed/${yt.dataset.yt}?autoplay=1&rel=0" title="Video" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe></div>`;
@@ -459,6 +481,8 @@
   });
   $('#sort').addEventListener('change', e => { state.sort = e.target.value; state.shown = PAGE; render(); });
   $('#more').addEventListener('click', more);
+  // Al cerrar la ficha se corta el video que estuviera sonando
+  $('#detail').addEventListener('close', () => { $('#detail').innerHTML = ''; });
   $('#cartBtn').addEventListener('click', () => openCart(true));
   $('#closeCart').addEventListener('click', () => openCart(false));
   $('#scrim').addEventListener('click', () => openCart(false));
@@ -495,6 +519,7 @@
       if (TABS.some(t => t.id === fromHash)) state.tab = fromHash;
       render();
       drawCart();
+      loadVideos(); // para mostrar el video de canje en la ficha de cada tarjeta
     })
     .catch(() => { $('#count').textContent = 'No se pudo cargar el catálogo. Probá recargar la página.'; });
 })();

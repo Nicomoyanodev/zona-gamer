@@ -1,32 +1,22 @@
 {
-  "_ayuda": "Pegá el link de YouTube de cada video en 'youtube'. 'descripcion' es opcional. Si 'youtube' está vacío, la web muestra 'Video próximamente'.",
+  "_ayuda": "Pegá el link de YouTube en 'youtube'. 'seccion' es 'instalar' o 'canjear'. 'marca' conecta el video con las tarjetas de esa marca (psn, psplus, roblox, steam, xbox, nintendo, fortnite, freefire, valorant, lol, apple, amazon, minecraft, windows). Si 'youtube' está vacío, se muestra 'Video próximamente'.",
   "videos": [
-    {
-      "consola": "PS5",
-      "titulo": "Cómo instalar tu juego en PS5",
-      "youtube": "https://youtu.be/EJ9I88ctA-Q"
-    },
-    {
-      "consola": "PS5",
-      "titulo": "PS5: si el juego aparece con candado",
-      "descripcion": "Activá el uso compartido de la consola para que el juego se desbloquee en tu usuario.",
-      "youtube": "https://youtu.be/5Pja8088mgU"
-    },
-    {
-      "consola": "PS4",
-      "titulo": "Cómo instalar tu juego en PS4",
-      "youtube": "https://www.youtube.com/watch?v=g9CwTGVD3wI"
-    },
-    {
-      "consola": "PS4",
-      "titulo": "PS4: si el juego aparece con candado",
-      "descripcion": "Activá tu consola como PS4 principal para que el juego se desbloquee en tu usuario.",
-      "youtube": "https://youtu.be/8wjM5qiNeqM"
-    },
-    {
-      "consola": "PS3",
-      "titulo": "Cómo descargar tu juego en PS3",
-      "youtube": "https://www.youtube.com/watch?v=g7sQpdhcxKA"
-    }
+    { "seccion": "instalar", "consola": "PS5", "titulo": "Cómo instalar tu juego en PS5", "youtube": "https://youtu.be/EJ9I88ctA-Q" },
+    { "seccion": "instalar", "consola": "PS5", "titulo": "PS5: si el juego aparece con candado", "descripcion": "Activá el uso compartido de la consola para que el juego se desbloquee en tu usuario.", "youtube": "https://youtu.be/5Pja8088mgU" },
+    { "seccion": "instalar", "consola": "PS4", "titulo": "Cómo instalar tu juego en PS4", "youtube": "https://www.youtube.com/watch?v=g9CwTGVD3wI" },
+    { "seccion": "instalar", "consola": "PS4", "titulo": "PS4: si el juego aparece con candado", "descripcion": "Activá tu consola como PS4 principal para que el juego se desbloquee en tu usuario.", "youtube": "https://youtu.be/8wjM5qiNeqM" },
+    { "seccion": "instalar", "consola": "PS3", "titulo": "Cómo descargar tu juego en PS3", "youtube": "https://www.youtube.com/watch?v=g7sQpdhcxKA" },
+
+    { "seccion": "canjear", "consola": "PlayStation", "marca": "psn", "titulo": "Cómo canjear una tarjeta PSN o código de PS Plus", "youtube": "https://www.youtube.com/watch?v=FJsnepNYQDE" },
+    { "seccion": "canjear", "consola": "Roblox", "marca": "roblox", "titulo": "Cómo canjear una tarjeta de Roblox", "youtube": "https://www.youtube.com/watch?v=x_GDffNhcko" },
+    { "seccion": "canjear", "consola": "Steam", "marca": "steam", "titulo": "Cómo canjear una tarjeta de Steam", "youtube": "https://www.youtube.com/watch?v=Cxl0YaLoHgo" },
+    { "seccion": "canjear", "consola": "Xbox", "marca": "xbox", "titulo": "Cómo canjear un código de Xbox Game Pass", "youtube": "https://www.youtube.com/watch?v=k4Sub-YWeC4" },
+    { "seccion": "canjear", "consola": "Nintendo", "marca": "nintendo", "titulo": "Cómo canjear una tarjeta Nintendo eShop", "youtube": "https://www.youtube.com/watch?v=yWqUSABloEU" },
+    { "seccion": "canjear", "consola": "Fortnite", "marca": "fortnite", "titulo": "Cómo canjear una tarjeta de V-Bucks (pavos)", "youtube": "https://www.youtube.com/watch?v=86TLbFn6SDM" },
+    { "seccion": "canjear", "consola": "Free Fire", "marca": "freefire", "titulo": "Cómo canjear diamantes de Free Fire en Pagostore", "youtube": "https://www.youtube.com/watch?v=rGvMAFYSZ8E" },
+    { "seccion": "canjear", "consola": "Valorant", "marca": "valorant", "titulo": "Cómo canjear un código de Valorant", "youtube": "https://www.youtube.com/watch?v=I54nHcxv238" },
+    { "seccion": "canjear", "consola": "League of Legends", "marca": "lol", "titulo": "Cómo canjear un código de League of Legends", "youtube": "https://www.youtube.com/watch?v=xRv-aITV7Sg" },
+    { "seccion": "canjear", "consola": "Apple", "marca": "apple", "titulo": "Cómo canjear una tarjeta de Apple / iTunes", "youtube": "https://www.youtube.com/watch?v=g7ExZ9hP33s" },
+    { "seccion": "canjear", "consola": "Amazon", "marca": "amazon", "titulo": "Cómo canjear una tarjeta de Amazon", "youtube": "https://www.youtube.com/watch?v=cW-vnc1GXks" }
   ]
 }

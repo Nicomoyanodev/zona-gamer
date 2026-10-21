@@ -379,3 +379,10 @@ button, select, input { font: inherit; color: inherit; }
 .sent a { color: var(--green); }
 @media (max-width: 640px) { .videos { grid-template-columns: 1fr; } }
 .video-body p { margin: 0; }
+.howto-nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.howto-nav a { border: 1px solid #333; border-radius: 999px; padding: 6px 14px; font-size: 13px; text-decoration: none; color: var(--muted); }
+.howto-nav a:hover { border-color: var(--red); color: var(--text); }
+#h-instalar, #h-canjear { scroll-margin-top: 130px; }
+.detail-video { margin: 12px 0; }
+.detail-video p { margin: 0 0 8px; font-size: 14px; }
+.detail-video .yt { border-radius: 10px; overflow: hidden; }
