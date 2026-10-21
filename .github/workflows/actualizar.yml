@@ -8,6 +8,7 @@ on:
     branches: [main]
 
 permissions:
+  actions: write
   contents: write
   pages: write
   id-token: write
@@ -36,6 +37,13 @@ jobs:
           git config user.email "bot@users.noreply.github.com"
           git add data/image-cache.json
           git diff --cached --quiet || (git commit -m "Portadas nuevas [skip ci]" && git push)
+      - name: Mantener activa la tarea automática
+        # GitHub pausa las tareas programadas tras 60 días sin cambios en el repo.
+        # Volver a "habilitar" el workflow reinicia ese contador sin hacer commits.
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/actualizar.yml/enable"
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
