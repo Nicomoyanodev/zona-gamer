@@ -31,5 +31,7 @@ Web con todos los productos del proveedor, con portadas y pedido directo por Wha
 
 ## Publicación
 
+La web está en **https://zonagamer.app** (GitHub Pages + dominio en Cloudflare).
+
 En GitHub, `.github/workflows/actualizar.yml` regenera y publica la web en GitHub Pages
 todos los días a las 7:00 y a las 15:00, y cada vez que se suben cambios.
