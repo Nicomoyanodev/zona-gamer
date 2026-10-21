@@ -216,6 +216,9 @@ async function getDolarBlue() {
 
 const usdToArs = (usd, dolar) => Math.round(usd * (dolar.venta + USD_EXTRA));
 
+// Un precio menor a esto en el PDF es un error de carga (ej. "$ 0,02" o "$ 8.067"): se muestra "Consultar precio"
+const MIN_PRICE = 15000;
+
 async function loadFisicos({ log = true, dolar = null } = {}) {
   const top = await listFolder(FOLDER_ID);
   const folders = top.filter(x => x.type === 'folder');
@@ -230,6 +233,10 @@ async function loadFisicos({ log = true, dolar = null } = {}) {
       const items = parseLines(lines, { platform, condition, file: f.name });
       for (const it of items) {
         if (it.currency === 'USD') { it.priceUsd = it.price; it.price = usdToArs(it.price, needDolar()); }
+        if (it.price != null && it.price < MIN_PRICE) {
+          if (log) console.log(`    precio sospechoso ($${it.price}) en "${it.raw}": queda "Consultar precio"`);
+          it.price = null; delete it.priceUsd;
+        }
       }
       if (log) console.log(`  ${folder.name} / ${f.name}: ${items.length} juegos, ${items.filter(i => i.price).length} con precio (${items.filter(i => i.priceUsd).length} en dólares)`);
       all.push(...items);
@@ -256,7 +263,7 @@ async function loadFisicos({ log = true, dolar = null } = {}) {
   return [...byId.values()];
 }
 
-module.exports = { loadFisicos, getDolarBlue, usdToArs, USD_EXTRA, cleanName, parseLines, pdfLines, parseMoney };
+module.exports = { loadFisicos, getDolarBlue, usdToArs, USD_EXTRA, MIN_PRICE, cleanName, parseLines, pdfLines, parseMoney };
 
 if (require.main === module) {
   getDolarBlue().then(dolar => { console.log('Dólar blue:', dolar); return loadFisicos({ dolar }); }).then(list => {
