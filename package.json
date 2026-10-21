@@ -1,0 +1,19 @@
+{
+  "name": "zona-gamer",
+  "version": "1.0.0",
+  "description": "Catálogo web de Zona Gamer",
+  "scripts": {
+    "actualizar": "node scripts/build.js",
+    "ver": "node scripts/serve.js",
+    "reintentar-portadas": "node scripts/build.js --reintentar",
+    "verificar-portadas": "node scripts/verificar-portadas.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.3/xlsx-0.20.3.tgz"
+  },
+  "private": true
+}
