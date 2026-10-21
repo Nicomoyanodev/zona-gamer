@@ -198,6 +198,7 @@
     const searching = !!state.q;
     $('#hero').hidden = searching;
     $('#searchHead').hidden = !searching;
+    $('#altDigital').hidden = true;
 
     const promosEl = $('#promos');
     const showPromos = tab.promos || (state.tab === 'todo' && !state.q && !state.chips.size);
@@ -218,7 +219,29 @@
     $('#count').textContent = searching ? '' : `${list.length.toLocaleString('es-AR')} producto${list.length === 1 ? '' : 's'}`;
     if (searching) renderSearchHead();
     $('#more').hidden = list.length <= state.shown;
-    $('#empty').hidden = list.length > 0;
+
+    // Físico sin stock: mostrar la versión digital en el mismo lugar
+    const alt = searching && state.mode === 'fisico' && !list.length ? digitalMatches() : [];
+    $('#altDigital').hidden = !alt.length;
+    document.querySelector('.toolbar').hidden = alt.length > 0;
+    if (alt.length) {
+      $('#altDigital').innerHTML = `
+        <div class="alt-head">
+          <p class="alt-title">No tenemos <b>“${esc(state.q)}”</b> en físico, <span>¡pero lo tenemos en digital!</span></p>
+          <p class="muted">Te llega por WhatsApp y lo jugás con tu propio usuario.</p>
+        </div>
+        <div class="grid">${alt.slice(0, 8).map(cardHTML).join('')}</div>
+        ${alt.length > 8 ? `<div class="more"><button class="btn ghost" data-switch="digital">Ver los ${alt.length} resultados en digitales</button></div>` : ''}`;
+    }
+    $('#empty').hidden = list.length > 0 || alt.length > 0;
+  }
+
+  // Juegos digitales que coinciden con la búsqueda, los más relevantes primero
+  function digitalMatches() {
+    const words = norm(state.q).split(' ');
+    return DATA.products
+      .filter(p => p.category !== 'fisicos' && words.every(w => p._s.includes(w)))
+      .sort((a, b) => b._rank - a._rank || (PLAT_ORDER[a.platform] ?? 9) - (PLAT_ORDER[b.platform] ?? 9) || a.name.localeCompare(b.name, 'es'));
   }
 
   // Encabezado de resultados: cantidad, promos que incluyen el juego y resultados en la otra sección
@@ -226,7 +249,7 @@
     const n = list.length;
     $('#searchTitle').innerHTML = n
       ? `<b>${n.toLocaleString('es-AR')}</b> resultado${n === 1 ? '' : 's'} para <b>“${esc(state.q)}”</b>`
-      : `No encontramos <b>“${esc(state.q)}”</b> en ${state.mode === 'fisico' ? 'juegos físicos' : 'juegos digitales'}`;
+      : (state.mode === 'fisico' ? `Sin stock físico de <b>“${esc(state.q)}”</b>` : `No encontramos <b>“${esc(state.q)}”</b> en juegos digitales`);
     const words = norm(state.q).split(' ');
     const hints = [];
     if (state.mode === 'digital') {
@@ -235,7 +258,8 @@
     }
     const other = state.mode === 'fisico' ? 'digital' : 'fisico';
     const inOther = DATA.products.filter(p => (p.category === 'fisicos') === (other === 'fisico') && words.every(w => p._s.includes(w))).length;
-    if (inOther) hints.push(`<div class="hint"><span>También en ${other === 'fisico' ? 'físicos' : 'digitales'}:</span><button class="mini" data-switch="${other}">Ver ${inOther} resultado${inOther === 1 ? '' : 's'}</button></div>`);
+    const altShown = state.mode === 'fisico' && !list.length;
+    if (inOther && !altShown) hints.push(`<div class="hint"><span>También en ${other === 'fisico' ? 'físicos' : 'digitales'}:</span><button class="mini" data-switch="${other}">Ver ${inOther} resultado${inOther === 1 ? '' : 's'}</button></div>`);
     $('#searchHints').innerHTML = hints.join('');
   }
 
