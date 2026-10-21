@@ -7,9 +7,26 @@ const ROOT = path.join(__dirname, '..');
 
 const slug = s => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130 Safari/537.36';
+
+// fetch con reintentos y con el motivo real del error (en GitHub "fetch failed" no dice nada)
+async function get(url) {
+  let last;
+  for (let i = 0; i < 4; i++) {
+    try {
+      return await fetch(url, { redirect: 'follow', headers: { 'User-Agent': UA }, signal: AbortSignal.timeout(30000) });
+    } catch (e) {
+      last = e;
+      await new Promise(r => setTimeout(r, 2000 * (i + 1)));
+    }
+  }
+  const cause = last && last.cause ? ` (${last.cause.code || ''} ${last.cause.message || last.cause})` : '';
+  throw new Error(`${last && last.message}${cause} en ${url.replace(/id=[\w-]+/, 'id=…')}`);
+}
+
 // Lista archivos y subcarpetas de una carpeta pública de Drive
 async function listFolder(id) {
-  const r = await fetch(`https://drive.google.com/embeddedfolderview?id=${id}`);
+  const r = await get(`https://drive.google.com/embeddedfolderview?id=${id}`);
   if (!r.ok) throw new Error(`Drive respondió ${r.status} al listar la carpeta`);
   const html = await r.text();
   const out = [];
@@ -20,9 +37,9 @@ async function listFolder(id) {
 }
 
 async function download(id) {
-  const r = await fetch(`https://drive.google.com/uc?export=download&id=${id}`, { redirect: 'follow' });
+  const r = await get(`https://drive.google.com/uc?export=download&id=${id}`);
   const buf = new Uint8Array(await r.arrayBuffer());
-  if (!r.ok || String.fromCharCode(...buf.slice(0, 4)) !== '%PDF') throw new Error(`No se pudo bajar el PDF ${id}`);
+  if (!r.ok || String.fromCharCode(...buf.slice(0, 4)) !== '%PDF') throw new Error(`No se pudo bajar un PDF (HTTP ${r.status}, ${r.headers.get('content-type')})`);
   return buf;
 }
 
