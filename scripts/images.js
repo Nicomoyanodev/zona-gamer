@@ -14,7 +14,7 @@ const STOP = new Set(['the', 'of', 'a', 'and', 'el', 'la', 'de', 'los', 'las', '
 
 function norm(s) {
   return s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase()
-    .replace(/[™®©]/g, '').replace(/['’]s/g, '').replace(/spider-?man/g, 'spider man').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
+    .replace(/[™®©]/g, '').replace(/['’]s\b/g, '').replace(/spider-?man/g, 'spider man').replace(/&/g, ' and ').replace(/[^a-z0-9]+/g, ' ').trim();
 }
 function tokens(s) {
   const out = norm(s).split(' ').filter(Boolean)

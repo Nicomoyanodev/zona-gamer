@@ -15,7 +15,7 @@
   };
 
   const TABS = [
-    { id: 'todo', label: 'Todo' },
+    { id: 'todo', label: 'Todo', filter: p => p.category !== 'fisicos' },
     { id: 'ps5', label: 'PS5', filter: p => p.platform === 'PS5' && p.category === 'juegos' },
     { id: 'ps4', label: 'PS4', filter: p => p.platform === 'PS4' && p.category === 'juegos' },
     { id: 'ps3', label: 'PS3', filter: p => p.platform === 'PS3' && p.category === 'juegos' },
@@ -25,7 +25,16 @@
     { id: 'accesorios', label: 'Accesorios', filter: p => p.category === 'accesorios' },
     { id: 'retro', label: 'Sega retro', filter: p => p.category === 'retro' },
     { id: 'instalar', label: '▶ Cómo instalar', page: 'howto' },
+    // Juegos físicos
+    { id: 'f-todo', mode: 'fisico', label: 'Todo', filter: p => p.category === 'fisicos' },
+    { id: 'f-ps5', mode: 'fisico', label: 'PS5', filter: p => p.category === 'fisicos' && p.platform === 'PS5' },
+    { id: 'f-ps4', mode: 'fisico', label: 'PS4', filter: p => p.category === 'fisicos' && p.platform === 'PS4' },
+    { id: 'f-ps3', mode: 'fisico', label: 'PS3', filter: p => p.category === 'fisicos' && p.platform === 'PS3' },
+    { id: 'f-switch', mode: 'fisico', label: 'Nintendo Switch', filter: p => p.category === 'fisicos' && (p.platform === 'Switch' || p.platform === '3DS') },
+    { id: 'f-xone', mode: 'fisico', label: 'Xbox One', filter: p => p.category === 'fisicos' && p.platform === 'Xbox One' },
+    { id: 'f-x360', mode: 'fisico', label: 'Xbox 360', filter: p => p.category === 'fisicos' && p.platform === 'Xbox 360' },
   ];
+  const modeOf = t => t.mode || 'digital';
 
   const GC = {
     psplus: ['PlayStation Plus', 'linear-gradient(135deg,#1a1a1a,#3a3000 60%,#f5c400)'],
@@ -45,7 +54,7 @@
   };
 
   let DATA = { products: [], promos: [], infos: {} };
-  let state = { tab: 'todo', q: '', sort: 'rel', chips: new Set(), shown: PAGE };
+  let state = { mode: 'digital', tab: 'todo', q: '', sort: 'rel', chips: new Set(), shown: PAGE };
   let cart = store.get('zg-cart', []);
   let lastOrder = null; // pedido recién enviado, para reabrir WhatsApp o recuperarlo
   let list = [];
@@ -84,11 +93,12 @@
       const [amount, small] = giftAmount(p);
       return `<div class="cover code"><div class="giftcard" style="--gc:${bg}"><div class="gc-brand">${esc(brand)}</div><div class="gc-amount">${esc(amount)}${small ? `<small>${esc(small)}</small>` : ''}</div></div></div>`;
     }
-    const plat = /^PS[345]$/.test(p.platform) ? `<span class="plat ${p.platform}">${p.platform}</span>` : '';
+    const plat = /^(PS[345]|Switch|3DS|Xbox One|Xbox 360)$/.test(p.platform) ? `<span class="plat ${p.platform.replace(/\s/g, '')}">${p.platform}</span>` : '';
     let tag = '';
     if (p.soldOut) tag = '<span class="tag out">AGOTADO</span>';
     else if (p.type === 'preventa') tag = '<span class="tag pre">PREVENTA</span>';
     else if (p.oldPrice) tag = `<span class="tag">-${Math.round((1 - p.price / p.oldPrice) * 100)}%</span>`;
+    else if (p.category === 'fisicos' && p.stock === 1) tag = '<span class="tag last">ÚLTIMA UNIDAD</span>';
     else if (p.isNew) tag = '<span class="tag new">NUEVO</span>';
     const img = p.image
       ? `<img src="${esc(p.image)}" alt="${esc(p.name)}" loading="${big ? 'eager' : 'lazy'}" referrerpolicy="no-referrer" data-ph="1">`
@@ -107,11 +117,12 @@
 
   /* ---------- Listado ---------- */
   const byId = new Map();
-  const PLAT_ORDER = { PS5: 0, PS4: 1, PS3: 2 };
+  const PLAT_ORDER = { PS5: 0, PS4: 1, PS3: 2, Switch: 3, '3DS': 4, 'Xbox One': 5, 'Xbox 360': 6 };
 
   function subtitle(p) {
     if (p.category === 'codigos') return p.type === 'suscripcion' ? 'Se activa en tu cuenta' : 'Código digital';
     if (p.type === 'combo') return `Combo · ${p.includes?.length || ''} juegos`;
+    if (p.category === 'fisicos') return `Físico · ${p.condition}`;
     if (p.category === 'accesorios') return 'Accesorio';
     if (p.category === 'retro') return (p.type === 'cartucho4en1' ? 'Cartucho 4 en 1' : 'Cartucho Sega') + ' · mín. 10';
     const bits = [];
@@ -130,6 +141,7 @@
     if (ch.has('packs')) out = out.filter(p => p.type === 'bundle' || p.type === 'combo');
     if (ch.has('nuevos')) out = out.filter(p => p.isNew);
     if (ch.has('retro')) out = out.filter(p => p.retro);
+    if (ch.has('cond:Nuevo') !== ch.has('cond:Usado')) out = out.filter(p => p.condition === (ch.has('cond:Nuevo') ? 'Nuevo' : 'Usado'));
     for (const c of ch) if (c.startsWith('brand:')) { const b = [...ch].filter(x => x.startsWith('brand:')).map(x => x.slice(6)); out = out.filter(p => b.includes(p.brand)); break; }
     if (state.q) {
       const words = norm(state.q).split(' ');
@@ -143,6 +155,8 @@
     else out.sort((a, b) => b._rank - a._rank || (PLAT_ORDER[a.platform] ?? 9) - (PLAT_ORDER[b.platform] ?? 9) || name(a, b));
     return out;
   }
+
+  const canOrder = p => p.price != null || p.category === 'fisicos';
 
   function cardHTML(p) {
     const priced = p.price != null;
@@ -158,7 +172,7 @@
         <div class="card-actions">
           ${p.soldOut ? '<button class="btn ghost" disabled>Agotado</button>' : `
           <a class="btn wa" data-act="ask" href="${waLink(askText(p))}" target="_blank" rel="noopener">${priced ? 'Pedir' : 'Consultar'}</a>
-          ${priced ? '<button class="btn add" data-act="add" aria-label="Agregar al pedido" title="Agregar al pedido">＋</button>' : ''}`}
+          ${canOrder(p) ? '<button class="btn add" data-act="add" aria-label="Agregar al pedido" title="Agregar al pedido">＋</button>' : ''}`}
         </div>
       </div>
     </article>`;
@@ -166,7 +180,14 @@
 
   function render() {
     const tab = TABS.find(t => t.id === state.tab);
-    $('#tabs').innerHTML = TABS.map(t => `<button class="tab" data-tab="${t.id}" aria-current="${t.id === state.tab}">${t.label}</button>`).join('');
+    $('#tabs').innerHTML = TABS.filter(t => modeOf(t) === state.mode).map(t => `<button class="tab" data-tab="${t.id}" aria-current="${t.id === state.tab}">${t.label}</button>`).join('');
+    document.querySelectorAll('.mode-btn').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === state.mode)));
+    const fis = state.mode === 'fisico';
+    $('#heroTitle').innerHTML = fis ? 'Juegos físicos <em>nuevos y usados</em>' : 'Juegos digitales <em>PS5 · PS4 · PS3</em> y tarjetas de saldo';
+    $('#heroText').textContent = fis
+      ? 'Stock real del local en Nuevocentro Shopping. Consultá el precio por WhatsApp y te lo reservamos.'
+      : 'Elegí lo que quieras, armá tu pedido y mandalo por WhatsApp. Te respondemos al toque.';
+    $('#q').placeholder = fis ? 'Buscar juego físico…' : 'Buscar juego, tarjeta…';
     renderChips(tab);
 
     const isPage = !!tab.page;
@@ -200,6 +221,7 @@
     if (['todo', 'ps5', 'ps4', 'ps3', 'preventas'].includes(tab.id)) chips.push(['oferta', 'En oferta']);
     if (['todo', 'ps5', 'ps4', 'ps3'].includes(tab.id)) chips.push(['packs', 'Packs y combos']);
     if (tab.id === 'ps3') chips.push(['nuevos', 'Nuevos']);
+    if (tab.mode === 'fisico') chips.push(['cond:Nuevo', 'Nuevos'], ['cond:Usado', 'Usados']);
     if (tab.id === 'ps5') chips.push(['retro', 'Retro']);
     if (tab.id === 'tarjetas') {
       const seen = new Set();
@@ -220,6 +242,7 @@
     const facts = [];
     facts.push(['Plataforma', p.platform]);
     if (p.account) facts.push(['Tipo de cuenta', p.account]);
+    if (p.category === 'fisicos') facts.push(['Formato', 'Físico'], ['Estado', p.condition], ['Stock', p.stock === 1 ? '¡Última unidad!' : 'Disponible']);
     if (p.language) facts.push(['Idioma', p.language]);
     if (p.size) facts.push(['Peso', p.size]);
     if (p.details) facts.push(['Incluye', p.details]);
@@ -227,6 +250,7 @@
     if (p.account === 'Primaria') extra += `<div class="info"><p><b>¿Qué es una cuenta primaria?</b></p><p>Te damos una cuenta con el juego comprado. La configurás como principal en tu consola, descargás el juego y lo jugás con <b>tu propio usuario</b>, con tus trofeos y partidas guardadas.</p></div>`;
     if (p.retro) extra += `<div class="info"><p><b>Retro:</b> título de la línea Retro que ofrece Sony en la tienda de PlayStation.</p></div>`;
     if (p.category === 'retro') extra += `<div class="info"><p><b>Compra mínima: 10 cartuchos</b> (podés combinar distintos títulos).</p></div>`;
+    if (p.category === 'fisicos') extra += `<div class="info"><p><b>Juego físico ${p.condition.toLowerCase()}.</b> Lo retirás en el local (Nuevocentro Shopping, Stand 1.05). Consultanos el precio por WhatsApp y te lo reservamos.</p></div>`;
     if (p.type === 'preventa') extra += `<div class="info"><p><b>Preventa:</b> lo reservás ahora y lo recibís el día del lanzamiento.</p></div>`;
     if (p.includes?.length) extra += `<p><b>Incluye ${p.includes.length} juegos:</b></p><ul class="includes">${p.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${(p.notes || []).map(n => `<p class="muted">${esc(n)}</p>`).join('')}`;
     const vid = videoFor(p);
@@ -245,7 +269,7 @@
           <div class="actions">
             ${p.soldOut ? '<button class="btn ghost" disabled>Agotado</button>' : `
             <a class="btn wa" href="${waLink(askText(p))}" target="_blank" rel="noopener">${priced ? 'Pedir por WhatsApp' : 'Consultar por WhatsApp'}</a>
-            ${priced ? `<button class="btn ghost" data-add="${esc(p.id)}">Agregar al pedido</button>` : ''}`}
+            ${canOrder(p) ? `<button class="btn ghost" data-add="${esc(p.id)}">Agregar al pedido</button>` : ''}`}
           </div>
         </div>
       </div>`;
@@ -358,6 +382,7 @@
   }
   function lineSub(p) {
     if (p.category === 'codigos') return p.platform;
+    if (p.category === 'fisicos') return `${p.platform} · físico ${p.condition.toLowerCase()}`;
     return [p.platform, p.account && `cuenta ${p.account.toLowerCase()}`, p.retro && 'retro'].filter(Boolean).join(' · ');
   }
   function drawCart() {
@@ -369,9 +394,10 @@
         <div class="thumb">${x.image ? `<img src="${esc(x.image)}" alt="" referrerpolicy="no-referrer">` : ''}</div>
         <div><div class="n">${esc(x.name)}</div><div class="s">${esc(x.sub)}</div>
           <div class="qty"><button data-q="${i}" data-d="-1" aria-label="Quitar uno">−</button>${x.qty}<button data-q="${i}" data-d="1" aria-label="Sumar uno">+</button></div></div>
-        <strong>${money(x.price * x.qty)}</strong>
+        <strong>${x.price == null ? '<span class="ask">A consultar</span>' : money(x.price * x.qty)}</strong>
       </div>`).join('') : '<p class="cart-empty">Todavía no agregaste nada.<br>Tocá ＋ en cualquier producto.</p>';
-    $('#cartTotal').textContent = money(cart.reduce((s, x) => s + x.price * x.qty, 0));
+    const toAsk = cart.filter(x => x.price == null).length;
+    $('#cartTotal').textContent = money(cart.reduce((s, x) => s + (x.price || 0) * x.qty, 0)) + (toAsk ? ' + a consultar' : '');
     const sega = cart.filter(x => x.key.startsWith('sega-')).reduce((s, x) => s + x.qty, 0);
     const segaShort = sega > 0 && sega < SEGA_MIN;
     $('#cartWarn').hidden = !segaShort;
@@ -380,11 +406,14 @@
     $('#sentBox').hidden = !(lastOrder && !cart.length);
   }
   function orderText() {
-    const lines = cart.map(x => `• ${x.qty > 1 ? x.qty + 'x ' : ''}${x.name}${x.sub ? ` (${x.sub})` : ''} — ${money(x.price * x.qty)}`);
-    const total = cart.reduce((s, x) => s + x.price * x.qty, 0);
-    return `¡Hola Zona Gamer! Quiero hacer este pedido:\n\n${lines.join('\n')}\n\n*Total: ${money(total)}*\n\n(Pedido desde la web)`;
+    const lines = cart.map(x => `• ${x.qty > 1 ? x.qty + 'x ' : ''}${x.name}${x.sub ? ` (${x.sub})` : ''} — ${x.price == null ? 'precio a consultar' : money(x.price * x.qty)}`);
+    const total = cart.reduce((s, x) => s + (x.price || 0) * x.qty, 0);
+    const toAsk = cart.some(x => x.price == null);
+    const totalLine = total ? `*Total: ${money(total)}*${toAsk ? ' + los productos a consultar' : ''}` : '¿Me pasás el precio y si está disponible?';
+    return `¡Hola Zona Gamer! Quiero hacer este pedido:\n\n${lines.join('\n')}\n\n${totalLine}\n\n(Pedido desde la web)`;
   }
   function askText(p) {
+    if (p.category === 'fisicos') return `¡Hola Zona Gamer! Quería consultar el precio de:\n\n• ${p.name} (${lineSub(p)})\n\n¿Lo tienen disponible?`;
     if (p.price == null) return `¡Hola Zona Gamer! Quería consultar por: ${p.name} (${p.platform}).`;
     return `¡Hola Zona Gamer! Quiero comprar:\n\n• ${p.name} (${lineSub(p)}) — ${money(p.price)}\n\n¿Está disponible?`;
   }
@@ -404,15 +433,25 @@
   }
 
   /* ---------- Eventos ---------- */
-  function setTab(id) {
+  function setMode(mode, { scroll = true } = {}) {
+    state.mode = mode;
+    $('#chooser').hidden = true;
+    document.body.classList.remove('choosing');
+    store.set('zg-mode', mode);
+    setTab(mode === 'fisico' ? 'f-todo' : 'todo', { scroll });
+  }
+
+  function setTab(id, { scroll = true } = {}) {
     state.tab = id; state.chips = new Set(); state.shown = PAGE;
-    history.replaceState(null, '', id === 'todo' ? location.pathname : '#' + id);
+    history.replaceState(null, '', '#' + id);
     render();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (scroll) window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 
   document.addEventListener('click', e => {
     const t = e.target;
+    const modeBtn = t.closest('[data-mode]');
+    if (modeBtn) { if (modeBtn.dataset.mode !== state.mode || !$('#chooser').hidden) setMode(modeBtn.dataset.mode); return; }
     const tab = t.closest('[data-tab]');
     if (tab) return setTab(tab.dataset.tab);
     const chip = t.closest('[data-chip]');
@@ -475,12 +514,14 @@
     qT = setTimeout(() => {
       state.q = e.target.value.trim();
       state.shown = PAGE;
-      if (state.q && TABS.find(t => t.id === state.tab).promos) state.tab = 'todo';
+      const cur = TABS.find(t => t.id === state.tab);
+      if (state.q && (cur.promos || cur.page)) state.tab = state.mode === 'fisico' ? 'f-todo' : 'todo';
       render();
     }, 150);
   });
   $('#sort').addEventListener('change', e => { state.sort = e.target.value; state.shown = PAGE; render(); });
   $('#more').addEventListener('click', more);
+  document.querySelector('.logo').addEventListener('click', e => { e.preventDefault(); $('#chooser').hidden = false; document.body.classList.add('choosing'); });
   // Al cerrar la ficha se corta el video que estuviera sonando
   $('#detail').addEventListener('close', () => { $('#detail').innerHTML = ''; });
   $('#cartBtn').addEventListener('click', () => openCart(true));
@@ -514,9 +555,11 @@
         p._s = norm(`${p.name} ${p.platform} ${p.brand || ''} ${(p.includes || []).join(' ')}`);
         p._rank = (p.image ? 3 : 0) + (p.oldPrice ? 2 : 0) + (p.type === 'preventa' ? 1 : 0) - (p.soldOut ? 5 : 0) - (p.price == null ? 1 : 0);
       }
-      if (d.updated) $('#updated').textContent = 'Precios actualizados: ' + new Date(d.updated).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
+      if (d.updated) $('#updated').textContent = 'Precios y stock actualizados: ' + new Date(d.updated).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
       const fromHash = location.hash.slice(1);
-      if (TABS.some(t => t.id === fromHash)) state.tab = fromHash;
+      const hashTab = TABS.find(t => t.id === fromHash);
+      if (hashTab) { state.tab = hashTab.id; state.mode = modeOf(hashTab); }
+      else { $('#chooser').hidden = false; document.body.classList.add('choosing'); }
       render();
       drawCart();
       loadVideos(); // para mostrar el video de canje en la ficha de cada tarjeta

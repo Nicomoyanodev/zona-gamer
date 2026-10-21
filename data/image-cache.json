@@ -9778,5 +9778,642 @@
   "src": "wikipedia-en",
   "match": "Resident Evil (1996 video game)",
   "loose": true
+ },
+ "Bloodstained Ritual Of The Night": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/692850/library_600x900.jpg",
+  "src": "steam",
+  "match": "Bloodstained: Ritual of the Night"
+ },
+ "Bakugan Champion": null,
+ "Brave 3DS": null,
+ "Beyond Steel Sky Steel Book Edition": null,
+ "Has Been Heroes": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/492290/library_600x900.jpg",
+  "src": "steam",
+  "match": "Has-Been Heroes"
+ },
+ "Scribblenauts Showdown": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/c/cc/Scribblenauts_Showdown_artwork.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Scribblenauts Showdown"
+ },
+ "Monopoly": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1474700/library_600x900.jpg",
+  "src": "steam",
+  "match": "MONOPOLY Poker"
+ },
+ "Megaman Legacy": null,
+ "We Love Katamari": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/d3/We_%E2%99%A5_Katamari.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "We Love Katamari"
+ },
+ "Wild Bastards": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1660840/library_600x900.jpg",
+  "src": "steam",
+  "match": "Wild Bastards"
+ },
+ "Cave Story+": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/200900/library_600x900.jpg",
+  "src": "steam",
+  "match": "Cave Story+"
+ },
+ "Yu Gi Oh Early Days Collection": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3013550/library_600x900.jpg",
+  "src": "steam",
+  "match": "Yu-Gi-Oh! EARLY DAYS COLLECTION"
+ },
+ "Daemon X Machina": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1167450/library_600x900.jpg",
+  "src": "steam",
+  "match": "DAEMON X MACHINA"
+ },
+ "Dragon Quest": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2436570/library_600x900.jpg",
+  "src": "steam",
+  "match": "DRAGON QUEST BUILDERS"
+ },
+ "Harvestella": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1816300/library_600x900.jpg",
+  "src": "steam",
+  "match": "HARVESTELLA"
+ },
+ "Monster Hunter Generations": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1346520/header.jpg?t=1593101348",
+  "src": "steam",
+  "match": "Monster Hunter Generations Original Soundtrack",
+  "wide": true
+ },
+ "Labo": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3999730/d7daa056e4017ccc3766ac9adbd2972082038f19/header.jpg?t=1762568452",
+  "src": "steam",
+  "match": "Doll Labo",
+  "wide": true
+ },
+ "Disgaea Vos Of The Virtueless": null,
+ "NBA 2K Playground": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/e4/NBA_Playgrounds.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "NBA Playgrounds"
+ },
+ "DC Super Hero Girls Teen Power": null,
+ "Tony Hawk's Pro Skater 1+2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2395210/library_600x900.jpg",
+  "src": "steam",
+  "match": "Tony Hawk's™ Pro Skater™ 1 + 2"
+ },
+ "Ys Origin": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/207350/library_600x900.jpg",
+  "src": "steam",
+  "match": "Ys Origin"
+ },
+ "Sports Party": null,
+ "2K8 Baseball": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/b/b4/Mlb2k8.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Major League Baseball 2K8"
+ },
+ "Active 2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1274910/library_600x900.jpg",
+  "src": "steam",
+  "match": "Active Neurons 2"
+ },
+ "Book Of Spells": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2942690/library_600x900.jpg",
+  "src": "steam",
+  "match": "Book of Spells"
+ },
+ "Cabelas Dangerous Hunts 2009": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/b/b0/Dangeroushunts2009.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Cabela's Dangerous Hunts 2009"
+ },
+ "Puyopuyo Tetris": null,
+ "Dj Hero": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/8/87/Dj-hero-cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "DJ Hero"
+ },
+ "Cabelas Outdoor Adventures": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/4/4a/Cabelaoutdooradventures09.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Cabela's Outdoor Adventures (2009 video game)"
+ },
+ "Disney Infinity": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/3/3c/Disney_Infinity_%282013%29_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Disney Infinity (video game)"
+ },
+ "Everybody Dance": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/9/99/Everybody_Dance_PS3_Cover_Art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Everybody Dance (video game)"
+ },
+ "Dj Hero 2": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/3/3b/DJ_Hero_2.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "DJ Hero 2"
+ },
+ "Everybody Dance 2": null,
+ "Everybody Dance 3": null,
+ "Eyepet": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/0/0e/EyePet_Box.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "EyePet"
+ },
+ "Guitar Hero Aerosmith": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/dc/Guitar_hero_aerosmith_cover_neutral.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Guitar Hero: Aerosmith"
+ },
+ "Guitar Hero Van Halen": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/9/91/Guitar_Hero_Van_Halen.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Guitar Hero: Van Halen"
+ },
+ "Guitar Hero Smash Hits": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/dc/Guitar_hero_smash_hits.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Guitar Hero Smash Hits"
+ },
+ "High Velocity Bowling": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/4/4b/Psn_high_velocity_bowling_icon.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "High Velocity Bowling"
+ },
+ "Just Dance 3": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/e2/Just_Dance_3.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Just Dance 3"
+ },
+ "Guitar Hero Warriors Og Rock": null,
+ "La Brujula Dorada": null,
+ "Medieval Moves": null,
+ "Madden 25": null,
+ "Madden 13": null,
+ "Ncaa 08 Football": null,
+ "Rocksmith": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2834910/library_600x900.jpg",
+  "src": "steam",
+  "match": "Rocksmith+"
+ },
+ "Shaun White": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/0/0f/Shaun_White_Snowboarding.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Shaun White Snowboarding"
+ },
+ "Ncaa 12 Footbal": null,
+ "Rockband": null,
+ "Start The Party": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/7/7d/Move_Party.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Start the Party!"
+ },
+ "Singstar": null,
+ "Sports Champions 1": null,
+ "The Eye Of Judgment": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/6/61/The_Eye_of_Judgment_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "The Eye of Judgment"
+ },
+ "Starter Disc": null,
+ "The Shoot": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3544500/library_600x900.jpg",
+  "src": "steam",
+  "match": "Shoot The Wall"
+ },
+ "Tiger Woods PGA Tour 13": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/e8/TWPGA13_Boxart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Tiger Woods PGA Tour 13"
+ },
+ "Tiger Woods PGA TOUR08": null,
+ "Topspin 3": null,
+ "Uncharted Drake's Fortune": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/5/5b/Uncharted_Drake%27s_Fortune.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Uncharted: Drake's Fortune"
+ },
+ "Valkyria Chronicles": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/294860/library_600x900.jpg",
+  "src": "steam",
+  "match": "Valkyria Chronicles™"
+ },
+ "Tv Super Stars": null,
+ "Virtua Tennis 2009": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/2/2f/Virtua_Tennis_2009_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Virtua Tennis 2009"
+ },
+ "Virtua Tennis 4": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/dd/Virtua_Tennis_4_cover.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Virtua Tennis 4"
+ },
+ "Especial Marvel Avengers": null,
+ "LEGO Worlds": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/332310/library_600x900.jpg",
+  "src": "steam",
+  "match": "LEGO® Worlds"
+ },
+ "FC 27": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4080220/ff6a3779f1ca83aae8ad3878454f6c11008ea24d/header.jpg?t=1790973254",
+  "src": "steam",
+  "match": "EA SPORTS FC™ 27",
+  "wide": true
+ },
+ "LEGO Movie 2 Video Game": null,
+ "Battleborn": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/c/c3/Battleborn_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Battleborn (video game)"
+ },
+ "Destiny 2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1085660/library_600x900.jpg",
+  "src": "steam",
+  "match": "Destiny 2"
+ },
+ "Wonderlans Chaotic Great Edition": null,
+ "Apex Legends Blood Hound": null,
+ "Divinity": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/214170/library_600x900.jpg",
+  "src": "steam",
+  "match": "Divine Divinity"
+ },
+ "Destiny The Taken King Legendary Edition": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/2/2c/Destiny_The_Taken_King_cover.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Destiny: The Taken King"
+ },
+ "Destiny La Coleccion": null,
+ "Fairpoint": null,
+ "FIFA 17 Sin Caja": null,
+ "Helldivers": null,
+ "Horizon Zero Dawn Completo": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/Logo_Horizon_Zero_Dawn.svg/500px-Logo_Horizon_Zero_Dawn.svg.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "src": "wikipedia-es",
+  "match": "Horizon Zero Dawn"
+ },
+ "Immortales Fenyx Rising": null,
+ "Injusticegods Among Us": null,
+ "Kingdom Hearts HD 2.8 Final Chapter Prologue": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2552440/library_600x900.jpg",
+  "src": "steam",
+  "match": "KINGDOM HEARTS HD 2.8 Final Chapter Prologue"
+ },
+ "Killzone Shadow Fall Sin Caja": null,
+ "Joes Diner": null,
+ "Kingdom Of Hearths HD II": null,
+ "Naruto To Boruto Shinobi Striker": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/633230/library_600x900.jpg",
+  "src": "steam",
+  "match": "NARUTO TO BORUTO: SHINOBI STRIKER"
+ },
+ "Madden 15": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/2/2a/Madden_15_Cover_Featuring_Richard_Sherman.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Madden NFL 15"
+ },
+ "Lombra Della Guerra": null,
+ "NBA2K18": null,
+ "PES 2016 20 Aniversario": null,
+ "Phoenix Point Behemoth Edition": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/1/14/Phoenix_Point_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Phoenix Point"
+ },
+ "VR Worlds": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1496000/library_600x900.jpg",
+  "src": "steam",
+  "match": "Many Worlds VR"
+ },
+ "VR Demo Disc": null,
+ "Rainbow Six Siege": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/797360/header.jpg?t=1526587047",
+  "src": "steam",
+  "match": "Escalation - A Rainbow Six: Siege series",
+  "wide": true
+ },
+ "Rugby 18": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/627450/header.jpg?t=1726153419",
+  "src": "steam",
+  "match": "RUGBY 18",
+  "wide": true
+ },
+ "Rainbow Six Extraction": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/9/98/Rainbow_Six_Extraction_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Tom Clancy's Rainbow Six Extraction"
+ },
+ "Rugby 15": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/8/83/Rugby_15_International_PS4_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Rugby 15"
+ },
+ "Shadow Of Mordor": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/241930/library_600x900.jpg",
+  "src": "steam",
+  "match": "Middle-earth™: Shadow of Mordor™"
+ },
+ "Sudden 4 Strike": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/373930/library_600x900.jpg",
+  "src": "steam",
+  "match": "Sudden Strike 4"
+ },
+ "Rugby Challenge 3": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/6/63/Rugby_Challenge_3_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Rugby Challenge 3"
+ },
+ "Sainsts Row": null,
+ "Tales Of The Borderland": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/7/71/Tales_from_the_Borderlands_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Tales from the Borderlands"
+ },
+ "The Glder Scrolls": null,
+ "The Last Of Us Parte 2": null,
+ "Titan Fall 2": null,
+ "Titanfall 2 Sin Caja": null,
+ "Wolfenstein The New Order Ddj": null,
+ "Astro Bot": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/a/a9/Astro_Bot_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Astro Bot"
+ },
+ "Demons Souls": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/1/11/Demons_Souls_remake_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Demon's Souls (2020 video game)"
+ },
+ "Baby Shark": null,
+ "Death Stranding 2 On The Beach": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3280350/6270c77b0729e2df0a17d660286eeddfd9169386/header.jpg?t=1774022345",
+  "src": "steam",
+  "match": "DEATH STRANDING 2: ON THE BEACH",
+  "wide": true
+ },
+ "Elden Ring Nightrein": null,
+ "Helldivers 2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/553850/library_600x900.jpg",
+  "src": "steam",
+  "match": "HELLDIVERS™ 2"
+ },
+ "Ghost Of Yotei": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/1/18/Ghost_of_Y%C5%8Dtei_cover_art.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Ghost of Yōtei"
+ },
+ "Little Nightmares 3": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1392860/library_600x900.jpg",
+  "src": "steam",
+  "match": "Little Nightmares III"
+ },
+ "Sid Meier S Civilization VII": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1295660/library_600x900.jpg",
+  "src": "steam",
+  "match": "Sid Meier's Civilization VII"
+ },
+ "Godfall Ascended Edition": null,
+ "Nioh Collection": null,
+ "Suicide Squad": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/2/2e/Suicide_Squad_Kill_the_Justice_League_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Suicide Squad: Kill the Justice League"
+ },
+ "Resident Evil 8 Village": null,
+ "Street Fighters": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/6/6c/Street_Fighter_game_flyer.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Street Fighter (video game)"
+ },
+ "The Crew Motorfest": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2698940/library_600x900.jpg",
+  "src": "steam",
+  "match": "The Crew Motorfest"
+ },
+ "Tony Hawks Pro Skater 3+4": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2545710/library_600x900.jpg",
+  "src": "steam",
+  "match": "Tony Hawk's™ Pro Skater™ 3 + 4"
+ },
+ "Uncharted Legacy Of Thief": null,
+ "Wukong": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4833600/7e15b6578e90b56dc6e0c28eda9a4b1df29113cc/header.jpg?t=1791882245",
+  "src": "steam",
+  "match": "Cyber Wukong",
+  "wide": true
+ },
+ "Elex II": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/900040/library_600x900.jpg",
+  "src": "steam",
+  "match": "ELEX II"
+ },
+ "Ratchet Clank": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1895880/library_600x900.jpg",
+  "src": "steam",
+  "match": "Ratchet & Clank: Rift Apart"
+ },
+ "Tactics Ogre Reborn": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1451090/library_600x900.jpg",
+  "src": "steam",
+  "match": "Tactics Ogre: Reborn"
+ },
+ "De Blob 2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/563190/library_600x900.jpg",
+  "src": "steam",
+  "match": "de Blob 2"
+ },
+ "Wildhearts": null,
+ "Lost Planet 2": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/8/8e/Lostplanet2cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Lost Planet 2"
+ },
+ "Mortal Kombat 11 Ltimate": null,
+ "Rock Revolution": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/2/2e/Revolution.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Rock Revolution"
+ },
+ "Disney High School Musical Dance 3": null,
+ "Assasins Creed Valhal Series X": null,
+ "Kinect Adventures!": null,
+ "Immortals Fenyx": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2221920/library_600x900.jpg",
+  "src": "steam",
+  "match": "Immortals Fenyx Rising"
+ },
+ "LEGO Star Wars The Skywalker Saga": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/920210/library_600x900.jpg",
+  "src": "steam",
+  "match": "LEGO® Star Wars™: The Skywalker Saga"
+ },
+ "Inmortals Fenyx Rising Series X": null,
+ "Sims 4": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222670/library_600x900.jpg",
+  "src": "steam",
+  "match": "The Sims™ 4"
+ },
+ "The LEGO Movie Video Game": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/640590/library_600x900.jpg",
+  "src": "steam",
+  "match": "The LEGO® NINJAGO® Movie Video Game"
+ },
+ "Need For Speed Hot Persuit Series X": null,
+ "Rare Replay": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/5/51/Rare_replay.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Rare Replay"
+ },
+ "F1 2016": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/6/64/F1_2016_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "F1 2016 (video game)"
+ },
+ "Dragon Ball Xenoverse XV": null,
+ "F1 2017": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/e5/F1_2017_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "F1 2017 (video game)"
+ },
+ "Farcry 4": null,
+ "Forza Motorsport 5": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/d7/Forza_5_box_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Forza Motorsport 5"
+ },
+ "Halo Master Chief Collection": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/976730/library_600x900.jpg",
+  "src": "steam",
+  "match": "Halo: The Master Chief Collection"
+ },
+ "LEGO The LEGO Movie Videogame": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/267530/library_600x900.jpg",
+  "src": "steam",
+  "match": "The LEGO® Movie - Videogame"
+ },
+ "Marvel Vs Capcom Infinite": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/493840/library_600x900.jpg",
+  "src": "steam",
+  "match": "Marvel vs. Capcom: Infinite"
+ },
+ "Farcry Primal": null,
+ "Forza Motorsport 7": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/2/2f/Forza_7_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Forza Motorsport 7"
+ },
+ "Gears War 4": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/f/ff/Gears_of_War_4.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Gears of War 4"
+ },
+ "Need For Speed Rivals": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1262600/library_600x900.jpg",
+  "src": "steam",
+  "match": "Need for Speed™ Rivals"
+ },
+ "Project Cars": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/df/Project_Cars_boxart.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Project CARS (video game)"
+ },
+ "Ryse": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/c/c5/Ryse_box_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Ryse: Son of Rome"
+ },
+ "Sunset Overdrive": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/847370/library_600x900.jpg",
+  "src": "steam",
+  "match": "Sunset Overdrive"
+ },
+ "Titanfall": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/8/84/Titanfall_box_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Titanfall (video game)"
+ },
+ "Minecraft Story Mode": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/0/04/Minecraft_Story_Mode_cover.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Minecraft: Story Mode"
+ },
+ "Mega Man Legacy": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/363440/library_600x900.jpg",
+  "src": "steam",
+  "match": "Mega Man Legacy Collection"
+ },
+ "Guitar Hero Warriors of Rock": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/b/bb/Guitar_Hero_Warriors_of_Rock_Game_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Guitar Hero: Warriors of Rock"
+ },
+ "Puyo Puyo Tetris": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/0/0c/Puyo_Puyo_Tetris_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Puyo Puyo Tetris"
+ },
+ "Ncaa 12 Football": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/4/41/Ncaa_football_12_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "NCAA Football 12"
+ },
+ "Marvel's Avengers": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/405310/library_600x900.jpg",
+  "src": "steam",
+  "match": "LEGO® MARVEL's Avengers"
+ },
+ "Rock Band": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4697880/bac224402a94e4bda631d820bfb14b7e9ed1905d/header.jpg?t=1792444271",
+  "src": "steam",
+  "match": "Rock Band Simulator",
+  "wide": true
+ },
+ "Tiger Woods PGA Tour 08": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/7/7f/Tiger_Woods_PGA_Tour_08_Coverart.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Tiger Woods PGA Tour 08"
+ },
+ "Wonderlands Chaotic Great Edition": null,
+ "The Elder Scrolls": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/306130/library_600x900.jpg",
+  "src": "steam",
+  "match": "The Elder Scrolls® Online"
+ },
+ "Apex Legends Bloodhound": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/d/db/Apex_legends_cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Apex Legends"
+ },
+ "Kingdom Of Hearts HD II": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/ed/Kingdom_Hearts_II_%28PS2%29.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Kingdom Hearts II"
+ },
+ "The Last Of Us Part II": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2531310/library_600x900.jpg",
+  "src": "steam",
+  "match": "The Last of Us™ Part II Remastered"
+ },
+ "Elden Ring Nightreign": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2622380/library_600x900.jpg",
+  "src": "steam",
+  "match": "ELDEN RING NIGHTREIGN"
+ },
+ "Uncharted Legacy of Thieves": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1659420/library_600x900.jpg",
+  "src": "steam",
+  "match": "UNCHARTED™: Legacy of Thieves Collection"
+ },
+ "Grand Theft Auto V": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3240220/library_600x900.jpg",
+  "src": "steam",
+  "match": "Grand Theft Auto V Enhanced"
+ },
+ "Street Fighter": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/6/6c/Street_Fighter_game_flyer.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Street Fighter (video game)"
  }
 }

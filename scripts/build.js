@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { parseWorkbook } = require('./parse');
 const { resolveImages } = require('./images');
+const { loadFisicos } = require('./fisicos');
 
 const ROOT = path.join(__dirname, '..');
 const XLSX_FILE = path.join(ROOT, 'data', 'proveedor.xlsx');
@@ -42,10 +43,28 @@ async function main() {
   const priced = products.filter(p => p.price).length;
   if (priced < products.length * 0.8) throw new Error(`Solo ${priced} de ${products.length} productos tienen precio. No se publica.`);
 
+  // Juegos físicos (PDFs de stock en Drive). Si Drive falla, se reusa la lista publicada
+  // para no frenar la actualización de los digitales.
+  let fisicos = [];
+  try {
+    console.log('Juegos físicos:');
+    fisicos = await loadFisicos();
+    console.log(`${fisicos.length} juegos físicos en stock`);
+  } catch (e) {
+    console.warn('No se pudieron leer los físicos (' + e.message + '). Se reusa la lista publicada.');
+    try {
+      const live = await (await fetch('https://zonagamer.app/data/catalogo.json')).json();
+      fisicos = (live.products || []).filter(p => p.category === 'fisicos');
+    } catch {}
+  }
+  products.push(...fisicos);
+
   // Qué nombre usar para buscar la portada de cada cosa
-  const lookup = p => (p.type === 'combo' && p.includes && p.includes[0]) || p.name;
+
+  const lookup = p => (p.type === 'combo' && p.includes && p.includes[0]) ||
+    (p.category === 'fisicos' ? p.name.replace(/\b(Sin Caja|Series X|Edición Especial)\b/gi, '').replace(/^GTA V$/i, 'Grand Theft Auto V').replace(/\s{2,}/g, ' ').trim() : p.name);
   const gameNames = [
-    ...products.filter(p => p.category === 'juegos' || p.category === 'preventas').map(lookup),
+    ...products.filter(p => ['juegos', 'preventas', 'fisicos'].includes(p.category)).map(lookup),
     ...promos.flatMap(pr => pr.games.map(g => g.name)),
   ];
   const images = noImages ? {} : await resolveImages(gameNames);
@@ -59,7 +78,7 @@ async function main() {
   }
 
   const withImg = products.filter(p => p.image).length;
-  const games = products.filter(p => p.category === 'juegos' || p.category === 'preventas').length;
+  const games = products.filter(p => ['juegos', 'preventas', 'fisicos'].includes(p.category)).length;
   console.log(`Portadas: ${withImg}/${games} juegos con imagen`);
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });

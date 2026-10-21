@@ -6,8 +6,9 @@ Web con todos los productos del proveedor, con portadas y pedido directo por Wha
 
 1. `scripts/build.js` baja el Excel del proveedor desde Google Drive.
 2. `scripts/parse.js` lo lee hoja por hoja y calcula el precio de venta (**costo × 2**).
-3. `scripts/images.js` busca la portada de cada juego (Steam y Wikipedia) y la guarda en `data/image-cache.json` para no buscarla de nuevo.
-4. Se genera `public/data/catalogo.json`, que es lo que muestra la web (`public/`).
+3. `scripts/fisicos.js` lee los PDFs de stock de juegos físicos de la carpeta de Drive (una subcarpeta por consola, archivos de nuevos y usados). Los precios de físicos son "a consultar".
+4. `scripts/images.js` busca la portada de cada juego (Steam y Wikipedia) y la guarda en `data/image-cache.json` para no buscarla de nuevo.
+5. Se genera `public/data/catalogo.json`, que es lo que muestra la web (`public/`).
 
 ## Comandos
 
