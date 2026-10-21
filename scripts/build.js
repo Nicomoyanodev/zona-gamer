@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { parseWorkbook } = require('./parse');
 const { resolveImages } = require('./images');
-const { loadFisicos } = require('./fisicos');
+const { loadFisicos, getDolarBlue } = require('./fisicos');
 
 const ROOT = path.join(__dirname, '..');
 const XLSX_FILE = path.join(ROOT, 'data', 'proveedor.xlsx');
@@ -46,15 +46,20 @@ async function main() {
   // Juegos físicos (PDFs de stock en Drive). Si Drive falla, se reusa la lista publicada
   // para no frenar la actualización de los digitales.
   let fisicos = [];
+  let dolar = null;
   try {
+    // Los precios en dólares de los PDFs se pasan a pesos con el dólar blue + 20
+    dolar = await getDolarBlue();
+    console.log(`Dólar blue: ${dolar.venta} (${dolar.fuente}) + ${dolar.extra} = ${dolar.venta + dolar.extra} por dólar`);
     console.log('Juegos físicos:');
-    fisicos = await loadFisicos();
+    fisicos = await loadFisicos({ dolar });
     console.log(`${fisicos.length} juegos físicos en stock`);
   } catch (e) {
     console.warn('No se pudieron leer los físicos (' + e.message + '). Se reusa la lista publicada.');
     try {
       const live = await (await fetch('https://zonagamer.app/data/catalogo.json')).json();
       fisicos = (live.products || []).filter(p => p.category === 'fisicos');
+      dolar = live.dolar || null;
     } catch {}
   }
   products.push(...fisicos);
@@ -82,7 +87,7 @@ async function main() {
   console.log(`Portadas: ${withImg}/${games} juegos con imagen`);
 
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
-  fs.writeFileSync(OUT, JSON.stringify({ updated: new Date().toISOString(), products, promos, infos }));
+  fs.writeFileSync(OUT, JSON.stringify({ updated: new Date().toISOString(), dolar, products, promos, infos }));
   console.log(`Listo: ${path.relative(ROOT, OUT)} (${Math.round(fs.statSync(OUT).size / 1024)} KB)`);
   stampAssets();
 }

@@ -110,15 +110,21 @@ function titleCase(raw) {
   });
 }
 
-// Recorre los renglones: nombre (1 o más líneas) + stock "2,00" + línea de categoría "SONY - JUEGOS PS4 NUEVOS"
+// Prefijo de dólares en el PDF: "u$s 145,93", "US$ 145", "USD 145"
+const USD_RE = /^(u\$s|us\$|usd|u\$d)\s*/i;
+const isUsd = t => USD_RE.test(String(t).trim());
+
 // "$ 45.990,00" / "45.990" / "45990,5" -> 45990 (formato argentino: punto = miles, coma = decimales)
+// Los importes en dólares ("u$s 145,93") conservan los centavos: se redondean recién al convertir a pesos.
 function parseMoney(t) {
-  const clean = String(t).replace(/[$\s]/g, '').replace(/^ARS/i, '');
+  const usd = isUsd(t);
+  const clean = String(t).trim().replace(USD_RE, '').replace(/[$\s]/g, '').replace(/^ARS/i, '');
   if (!/^\d{1,3}(\.\d{3})*(,\d+)?$|^\d+(,\d+)?$/.test(clean)) return null;
   const n = parseFloat(clean.replace(/\./g, '').replace(',', '.'));
-  return n > 0 ? Math.round(n) : null;
+  if (!(n > 0)) return null;
+  return usd ? n : Math.round(n);
 }
-const isNumberish = t => /^\$?\s*\d[\d.,]*$/.test(String(t).trim());
+const isNumberish = t => /^(u\$s|us\$|usd|u\$d)?\s*\$?\s*\d[\d.,]*$/i.test(String(t).trim());
 
 // Recorre los renglones: nombre (1 o más líneas) + números (stock y, si existe, precio)
 // + línea de categoría "SONY - JUEGOS PS4 NUEVOS". Las columnas se ubican por el encabezado
@@ -126,7 +132,7 @@ const isNumberish = t => /^\$?\s*\d[\d.,]*$/.test(String(t).trim());
 function parseLines(lines, { platform, condition, file }) {
   const items = [];
   let cols = { stock: 424 };          // posición x de cada columna (por defecto, el formato sin precios)
-  let name = [], stock = null, price = null;
+  let name = [], stock = null, price = null, currency = 'ARS';
   const isHeader = t => /Zona Gamer S\.A\.S|Av Duartes|Listado de Precios|Powered by|^\d+ \/ \d+$/i.test(t);
 
   // A qué columna numérica pertenece una celda: la de encabezado más cercana en x
@@ -148,7 +154,7 @@ function parseLines(lines, { platform, condition, file }) {
       for (const c of row) {
         if (/producto/i.test(c.s)) cols.producto = c.x;
         else if (/stock|cant/i.test(c.s)) cols.stock = c.x;
-        else if (/precio|p\.?\s?venta|importe|valor|contado|efectivo|lista/i.test(c.s) && cols.precio == null) cols.precio = c.x;
+        else if (/precio|final|p\.?\s?venta|importe|valor|contado|efectivo|lista/i.test(c.s) && cols.precio == null) cols.precio = c.x;
       }
       if (cols.stock == null) cols.stock = 424;
       continue;
@@ -166,10 +172,11 @@ function parseLines(lines, { platform, condition, file }) {
           condition: /OUTLET|OULET/i.test(raw) ? 'Usado' : condition,
           stock,
           price,
+          currency: price != null ? currency : null,
           file,
         });
       }
-      name = []; stock = null; price = null;
+      name = []; stock = null; price = null; currency = 'ARS';
       continue;
     }
     for (const c of row) {
@@ -177,26 +184,54 @@ function parseLines(lines, { platform, condition, file }) {
       // Un "stock" de más de 500 unidades o con signo $ en realidad es un precio (columna con otro nombre)
       const looksLikePrice = /\$/.test(c.s) || (parseMoney(c.s) || 0) > 500;
       if (col === 'stock' && !looksLikePrice) stock = Math.round(parseFloat(c.s.replace(/[$\s.]/g, '').replace(',', '.')));
-      else if (col === 'stock' && looksLikePrice) price = parseMoney(c.s);
-      else if (col === 'precio') price = parseMoney(c.s);
+      else if (col === 'stock' || col === 'precio') { price = parseMoney(c.s); currency = isUsd(c.s) ? 'USD' : 'ARS'; }
       else name.push(c.s);
     }
   }
   return items;
 }
 
-async function loadFisicos({ log = true } = {}) {
+// Los precios en dólares del PDF se pasan a pesos con el dólar blue (venta) + USD_EXTRA pesos por dólar.
+const USD_EXTRA = 20;
+
+// Cotización del dólar blue (venta). Prueba dos APIs públicas; si las dos fallan, usa la última publicada en la web.
+async function getDolarBlue() {
+  const sources = [
+    ['https://dolarapi.com/v1/dolares/blue', j => j.venta],
+    ['https://api.bluelytics.com.ar/v2/latest', j => j.blue && j.blue.value_sell],
+  ];
+  for (const [url, pick] of sources) {
+    try {
+      const r = await get(url);
+      const venta = Number(pick(await r.json()));
+      if (r.ok && venta > 100) return { venta, extra: USD_EXTRA, fuente: new URL(url).host, fecha: new Date().toISOString() };
+    } catch {}
+  }
+  try {
+    const live = await (await get('https://zonagamer.app/data/catalogo.json')).json();
+    if (live.dolar && live.dolar.venta > 100) return { ...live.dolar, fuente: 'última cotización publicada' };
+  } catch {}
+  throw new Error('No se pudo obtener la cotización del dólar blue');
+}
+
+const usdToArs = (usd, dolar) => Math.round(usd * (dolar.venta + USD_EXTRA));
+
+async function loadFisicos({ log = true, dolar = null } = {}) {
   const top = await listFolder(FOLDER_ID);
   const folders = top.filter(x => x.type === 'folder');
   if (!folders.length) throw new Error('La carpeta de Drive de físicos está vacía o no es pública');
   const all = [];
+  const needDolar = () => { if (!dolar) throw new Error('Hay precios en dólares pero no hay cotización del dólar blue'); return dolar; };
   for (const folder of folders) {
     const platform = platformOf(folder.name) || folder.name;
     for (const f of (await listFolder(folder.id)).filter(x => x.type === 'file')) {
       const condition = /USAD/i.test(f.name) ? 'Usado' : 'Nuevo';
       const lines = await pdfLines(await download(f.id));
       const items = parseLines(lines, { platform, condition, file: f.name });
-      if (log) console.log(`  ${folder.name} / ${f.name}: ${items.length} juegos, ${items.filter(i => i.price).length} con precio`);
+      for (const it of items) {
+        if (it.currency === 'USD') { it.priceUsd = it.price; it.price = usdToArs(it.price, needDolar()); }
+      }
+      if (log) console.log(`  ${folder.name} / ${f.name}: ${items.length} juegos, ${items.filter(i => i.price).length} con precio (${items.filter(i => i.priceUsd).length} en dólares)`);
       all.push(...items);
     }
   }
@@ -204,7 +239,7 @@ async function loadFisicos({ log = true } = {}) {
   const byId = new Map();
   for (const it of all) {
     const id = `fisico-${slug(it.platform)}-${slug(it.name)}-${slug(it.condition)}`;
-    if (byId.has(id)) { const prev = byId.get(id); prev.stock += it.stock; if (prev.price == null) prev.price = it.price; continue; }
+    if (byId.has(id)) { const prev = byId.get(id); prev.stock += it.stock; if (prev.price == null) { prev.price = it.price; if (it.priceUsd) prev.priceUsd = it.priceUsd; } continue; }
     byId.set(id, {
       id,
       name: it.name,
@@ -214,19 +249,20 @@ async function loadFisicos({ log = true } = {}) {
       condition: it.condition,
       stock: it.stock,
       price: it.price ?? null,
+      ...(it.priceUsd ? { priceUsd: it.priceUsd } : {}),
       oldPrice: null,
     });
   }
   return [...byId.values()];
 }
 
-module.exports = { loadFisicos, cleanName, parseLines, pdfLines, parseMoney };
+module.exports = { loadFisicos, getDolarBlue, usdToArs, USD_EXTRA, cleanName, parseLines, pdfLines, parseMoney };
 
 if (require.main === module) {
-  loadFisicos().then(list => {
+  getDolarBlue().then(dolar => { console.log('Dólar blue:', dolar); return loadFisicos({ dolar }); }).then(list => {
     const by = {};
     for (const p of list) by[`${p.platform} ${p.condition}`] = (by[`${p.platform} ${p.condition}`] || 0) + 1;
     console.log(list.length, 'juegos físicos', by);
-    console.log(list.filter((_, i) => i % 9 === 0).map(p => `${p.platform} | ${p.condition} | ${p.stock} | ${p.name}`).join('\n'));
+    console.log(list.filter((p, i) => i % 9 === 0 || p.priceUsd).map(p => `${p.platform} | ${p.condition} | ${p.stock} | ${p.name} | ${p.price ?? '-'}${p.priceUsd ? ` (u$s ${p.priceUsd})` : ''}`).join('\n'));
   }).catch(e => { console.error(e); process.exit(1); });
 }
