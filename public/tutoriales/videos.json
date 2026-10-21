@@ -1,8 +1,32 @@
 {
-  "_ayuda": "Pegá el link de YouTube de cada video en 'youtube'. Si está vacío, la web muestra 'Video próximamente'.",
+  "_ayuda": "Pegá el link de YouTube de cada video en 'youtube'. 'descripcion' es opcional. Si 'youtube' está vacío, la web muestra 'Video próximamente'.",
   "videos": [
-    { "consola": "PS5", "titulo": "Cómo instalar tu juego en PS5", "youtube": "" },
-    { "consola": "PS4", "titulo": "Cómo instalar tu juego en PS4", "youtube": "" },
-    { "consola": "PS3", "titulo": "Cómo instalar tu juego en PS3", "youtube": "" }
+    {
+      "consola": "PS5",
+      "titulo": "Cómo instalar tu juego en PS5",
+      "youtube": "https://youtu.be/EJ9I88ctA-Q"
+    },
+    {
+      "consola": "PS5",
+      "titulo": "PS5: si el juego aparece con candado",
+      "descripcion": "Activá el uso compartido de la consola para que el juego se desbloquee en tu usuario.",
+      "youtube": "https://youtu.be/5Pja8088mgU"
+    },
+    {
+      "consola": "PS4",
+      "titulo": "Cómo instalar tu juego en PS4",
+      "youtube": "https://www.youtube.com/watch?v=g9CwTGVD3wI"
+    },
+    {
+      "consola": "PS4",
+      "titulo": "PS4: si el juego aparece con candado",
+      "descripcion": "Activá tu consola como PS4 principal para que el juego se desbloquee en tu usuario.",
+      "youtube": "https://youtu.be/8wjM5qiNeqM"
+    },
+    {
+      "consola": "PS3",
+      "titulo": "Cómo descargar tu juego en PS3",
+      "youtube": "https://www.youtube.com/watch?v=g7sQpdhcxKA"
+    }
   ]
 }

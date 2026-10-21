@@ -378,3 +378,4 @@ button, select, input { font: inherit; color: inherit; }
 .sent p { margin: 0 0 4px; }
 .sent a { color: var(--green); }
 @media (max-width: 640px) { .videos { grid-template-columns: 1fr; } }
+.video-body p { margin: 0; }

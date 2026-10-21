@@ -318,7 +318,7 @@
       const media = id
         ? `<button class="yt" data-yt="${id}" aria-label="Reproducir: ${esc(v.titulo)}"><img src="https://i.ytimg.com/vi/${id}/hqdefault.jpg" alt="" loading="lazy"><span class="yt-play" aria-hidden="true"></span></button>`
         : '<div class="yt soon"><span>Video próximamente</span></div>';
-      return `<article class="video-card">${media}<div class="video-body"><span class="plat ${esc(v.consola)}" style="position:static">${esc(v.consola)}</span><h3>${esc(v.titulo)}</h3></div></article>`;
+      return `<article class="video-card">${media}<div class="video-body"><span class="plat ${esc(v.consola)}" style="position:static">${esc(v.consola)}</span><h3>${esc(v.titulo)}</h3>${v.descripcion ? `<p class="muted">${esc(v.descripcion)}</p>` : ''}</div></article>`;
     }).join('');
     el.innerHTML = `
       <h2 class="section-title">Cómo instalar tu juego</h2>
