@@ -10424,5 +10424,212 @@
  "Alan Wake 2 U$s 145,93": null,
  "Dragon Ball Z Kakarot U$s 109,99": null,
  "The Crew Motorfest U$s 77,32": null,
- "Tony Hawks Pro Skater 3+4 U$s 114,35": null
+ "Tony Hawks Pro Skater 3+4 U$s 114,35": null,
+ "Clive Barker's Hellraiser": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1551980/library_600x900.jpg",
+  "src": "steam",
+  "match": "Clive Barker's Hellraiser: Revival"
+ },
+ "Castlevania Belmont's Curse": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4231820/6b65aec2c398006aea8b76e1463cc34d0e4ba68b/header.jpg?t=1792036946",
+  "src": "steam",
+  "match": "Castlevania: Belmont's Curse",
+  "wide": true
+ },
+ "Red Dead Redemption y Red Dead Redemption 2": {
+  "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/Red_Dead_Redemption_2_Logo.png/500px-Red_Dead_Redemption_2_Logo.png?utm_source=es.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "src": "wikipedia-es",
+  "match": "Red Dead Redemption 2"
+ },
+ "Assassin's Creed Mythology pack": {
+  "url": "https://thumb.wikimedia.org/wikipedia/en/thumb/2/2a/Assassin%27s_Creed_Logo.svg/500px-Assassin%27s_Creed_Logo.svg.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail",
+  "src": "wikipedia-en",
+  "match": "Assassin's Creed",
+  "loose": true
+ },
+ "MotoGP 26": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/9/9c/MotoGP_26_PS5_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "MotoGP 26"
+ },
+ "F1 25 2026 Season Edition": null,
+ "Moto GP 2023": null,
+ "NBA 2K25": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2878980/library_600x900.jpg",
+  "src": "steam",
+  "match": "NBA 2K25"
+ },
+ "NBA 2K26": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3472040/f7e126add75c3b09779b44cd349be93d31b0a80b/header.jpg?t=1786115051",
+  "src": "steam",
+  "match": "NBA 2K26",
+  "wide": true
+ },
+ "NBA 2K27": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4356430/9152438fde7de9f4c20b4fd9072ba69f844dacab/header.jpg?t=1792163139",
+  "src": "steam",
+  "match": "NBA 2K27",
+  "wide": true
+ },
+ "NBA 2K 21 Nueva Generacion": null,
+ "NBA 2K24": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/4/48/NBA_2K24_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "NBA 2K24"
+ },
+ "WWE 2K 23": null,
+ "WWE 2K 26": null,
+ "WWE 2K 25": null,
+ "Marvel's Midnight Suns": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368260/library_600x900.jpg",
+  "src": "steam",
+  "match": "Marvel's Midnight Suns"
+ },
+ "Attack on Titan 3": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/486006/header.jpg?t=1710400516",
+  "src": "steam",
+  "match": "Attack on Titan - Episode 3",
+  "wide": true
+ },
+ "Forza Horizon 6": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2483190/bd1e762f4720cb68af365f2e41d002f14dd74fbf/header_alt_assets_5.jpg?t=1791312088",
+  "src": "steam",
+  "match": "Forza Horizon 6",
+  "wide": true
+ },
+ "METRO 2039": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2590240/6998fb70f896b0f155061de0b472a8262bd06ef9/header.jpg?t=1792162386",
+  "src": "steam",
+  "match": "METRO 2039",
+  "wide": true
+ },
+ "Shrek 2 Remastered": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2523740/abfa94e9a286146554386662e218aae82716711f/header.jpg?t=1792599321",
+  "src": "steam",
+  "match": "DreamWorks Shrek 2 Remastered",
+  "wide": true
+ },
+ "RoboCop: Rogue City": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1681430/library_600x900.jpg",
+  "src": "steam",
+  "match": "RoboCop: Rogue City"
+ },
+ "Teenage Mutant Ninja Turtles: The Cowabunga Collection": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1659600/library_600x900.jpg",
+  "src": "steam",
+  "match": "Teenage Mutant Ninja Turtles: The Cowabunga Collection"
+ },
+ "Detroit: Become Human": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1222140/library_600x900.jpg",
+  "src": "steam",
+  "match": "Detroit: Become Human"
+ },
+ "Middle-earth: Shadow of Mordor": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/241930/library_600x900.jpg",
+  "src": "steam",
+  "match": "Middle-earth™: Shadow of Mordor™"
+ },
+ "MotoGP15": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/355130/library_600x900.jpg",
+  "src": "steam",
+  "match": "MotoGP™15"
+ },
+ "Cook Serve Delicius": null,
+ "WWE 2K 24": null,
+ "Saints Row IV: Re-Elected": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/206420/library_600x900.jpg",
+  "src": "steam",
+  "match": "Saints Row IV: Re-Elected"
+ },
+ "Star Wars: Battlefront": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1237980/library_600x900.jpg",
+  "src": "steam",
+  "match": "STAR WARS™ Battlefront"
+ },
+ "Tomb Raider: Definitive Edition": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/750920/library_600x900.jpg",
+  "src": "steam",
+  "match": "Shadow of the Tomb Raider: Definitive Edition"
+ },
+ "Jurassic World: Evolution": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/648350/library_600x900.jpg",
+  "src": "steam",
+  "match": "Jurassic World Evolution"
+ },
+ "Tomb Raider: Definitive Survivor Trilogy": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/391220/library_600x900.jpg",
+  "src": "steam",
+  "match": "Rise of the Tomb Raider™",
+  "loose": true
+ },
+ "Just Cause 4: Reloaded": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/517630/library_600x900.jpg",
+  "src": "steam",
+  "match": "Just Cause 4 Reloaded"
+ },
+ "Lego Batman 3: Beyond Gotham": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/313690/library_600x900.jpg",
+  "src": "steam",
+  "match": "LEGO® Batman™ 3: Beyond Gotham"
+ },
+ "Mafia II: Definitive Edition": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1030830/library_600x900.jpg",
+  "src": "steam",
+  "match": "Mafia II: Definitive Edition"
+ },
+ "Mass Effect: Andromeda": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1238000/library_600x900.jpg",
+  "src": "steam",
+  "match": "Mass Effect™: Andromeda Deluxe Edition"
+ },
+ "Payday 2: Crimewave Edition": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/7/7b/Payday2cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Payday 2"
+ },
+ "Rise of the Tomb Raider: 20 Year Celebration": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/391220/library_600x900.jpg",
+  "src": "steam",
+  "match": "Rise of the Tomb Raider™",
+  "loose": true
+ },
+ "Naruto Shippuden: Ninja Storm 1": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/301896/header.jpg?t=1489665971",
+  "src": "steam",
+  "match": "NARUTO SHIPPUDEN: Ultimate Ninja STORM Revolution - DLC7 Variety Pack 1",
+  "wide": true
+ },
+ "Naruto Shippuden: Ninja Storm 2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/543870/header.jpg?t=1701323477",
+  "src": "steam",
+  "match": "NARUTO SHIPPUDEN: Ultimate Ninja STORM 2",
+  "wide": true
+ },
+ "Naruto Shippuden: Ninja Storm 3": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/234670/header.jpg?t=1703662542",
+  "src": "steam",
+  "match": "NARUTO SHIPPUDEN: Ultimate Ninja STORM 3 Full Burst HD",
+  "wide": true
+ },
+ "Naruto Shippuden: Ninja Storm 4": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/349040/library_600x900.jpg",
+  "src": "steam",
+  "match": "NARUTO SHIPPUDEN: Ultimate Ninja STORM 4"
+ },
+ "One Piece: Pirate Warriors 4": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1089090/library_600x900.jpg",
+  "src": "steam",
+  "match": "ONE PIECE: PIRATE WARRIORS 4"
+ },
+ "Teenage Mutant Ninja Turtles Arcade: Wrath of the Mutants": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2527580/library_600x900.jpg",
+  "src": "steam",
+  "match": "Teenage Mutant Ninja Turtles Arcade: Wrath of the Mutants"
+ },
+ "Zombie Army 4: Dead War": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/694280/library_600x900.jpg",
+  "src": "steam",
+  "match": "Zombie Army 4: Dead War"
+ },
+ "Naruto Shippuden: Legacy Collection": null
 }
