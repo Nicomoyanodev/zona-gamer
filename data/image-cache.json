@@ -10631,5 +10631,13 @@
   "src": "steam",
   "match": "Zombie Army 4: Dead War"
  },
- "Naruto Shippuden: Legacy Collection": null
+ "Naruto Shippuden: Legacy Collection": null,
+ "NFS Heat": null,
+ "Battlefield 4 Premiun": null,
+ "Battlefield 5 Definitive Edition": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/f/f0/Battlefield_V_standard_edition_box_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Battlefield V"
+ },
+ "Middle earth Shadow of M": null
 }
