@@ -219,6 +219,16 @@ const usdToArs = (usd, dolar) => Math.round(usd * (dolar.venta + USD_EXTRA));
 // Un precio menor a esto en el PDF es un error de carga (ej. "$ 0,02" o "$ 8.067"): se muestra "Consultar precio"
 const MIN_PRICE = 15000;
 
+// Precio fijo del local para todos los juegos usados de PS4 (pisa el del PDF, que no trae precio)
+const PRECIO_FIJO = [{ platform: 'PS4', condition: 'Usado', price: 40000 }];
+function applyFixedPrices(list) {
+  for (const p of list) {
+    const rule = PRECIO_FIJO.find(r => r.platform === p.platform && r.condition === p.condition);
+    if (rule) { p.price = rule.price; delete p.priceUsd; p.oldPrice = null; }
+  }
+  return list;
+}
+
 async function loadFisicos({ log = true, dolar = null } = {}) {
   const top = await listFolder(FOLDER_ID);
   const folders = top.filter(x => x.type === 'folder');
@@ -260,10 +270,10 @@ async function loadFisicos({ log = true, dolar = null } = {}) {
       oldPrice: null,
     });
   }
-  return [...byId.values()];
+  return applyFixedPrices([...byId.values()]);
 }
 
-module.exports = { loadFisicos, getDolarBlue, usdToArs, USD_EXTRA, MIN_PRICE, cleanName, parseLines, pdfLines, parseMoney };
+module.exports = { loadFisicos, applyFixedPrices, getDolarBlue, usdToArs, USD_EXTRA, MIN_PRICE, cleanName, parseLines, pdfLines, parseMoney };
 
 if (require.main === module) {
   getDolarBlue().then(dolar => { console.log('Dólar blue:', dolar); return loadFisicos({ dolar }); }).then(list => {

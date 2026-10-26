@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const { parseWorkbook } = require('./parse');
 const { resolveImages } = require('./images');
-const { loadFisicos, getDolarBlue } = require('./fisicos');
+const { loadFisicos, getDolarBlue, applyFixedPrices } = require('./fisicos');
 
 const ROOT = path.join(__dirname, '..');
 const XLSX_FILE = path.join(ROOT, 'data', 'proveedor.xlsx');
@@ -58,7 +58,7 @@ async function main() {
     console.warn('No se pudieron leer los físicos (' + e.message + '). Se reusa la lista publicada.');
     try {
       const live = await (await fetch('https://zonagamer.app/data/catalogo.json')).json();
-      fisicos = (live.products || []).filter(p => p.category === 'fisicos');
+      fisicos = applyFixedPrices((live.products || []).filter(p => p.category === 'fisicos'));
       dolar = live.dolar || null;
     } catch {}
   }

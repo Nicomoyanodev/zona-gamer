@@ -30,6 +30,7 @@
     { id: 'instalar', label: '▶ Cómo instalar', page: 'howto' },
     // Juegos físicos
     { id: 'f-todo', mode: 'fisico', label: 'Todo', filter: p => p.category === 'fisicos' },
+    { id: 'f-promos', mode: 'fisico', label: '🔥 Promos PS4 usados', promos: true },
     { id: 'f-ps5', mode: 'fisico', label: 'PS5', filter: p => p.category === 'fisicos' && p.platform === 'PS5' },
     { id: 'f-ps4', mode: 'fisico', label: 'PS4', filter: p => p.category === 'fisicos' && p.platform === 'PS4' },
     { id: 'f-ps3', mode: 'fisico', label: 'PS3', filter: p => p.category === 'fisicos' && p.platform === 'PS3' },
@@ -38,6 +39,17 @@
     { id: 'f-x360', mode: 'fisico', label: 'Xbox 360', filter: p => p.category === 'fisicos' && p.platform === 'Xbox 360' },
   ];
   const modeOf = t => t.mode || 'digital';
+
+  // Promos de juegos físicos (se arman con el stock del catálogo)
+  const usadoPS4 = p => p.category === 'fisicos' && p.platform === 'PS4' && p.condition === 'Usado';
+  const PROMOS_FIS_DEF = [
+    { id: 'pf-3x85', name: '3 juegos PS4 usados a elección', badge: '3 x $85.000', pick: 3, price: 85000, filter: usadoPS4 },
+    // Solo los juegos con 3 o más unidades en stock
+    { id: 'pf-5x100', name: '5 juegos PS4 usados seleccionados', badge: '5 x $100.000', pick: 5, price: 100000, filter: p => usadoPS4(p) && p.stock >= 3 },
+  ];
+  let FIS_PROMOS = [];
+  const promosOf = mode => (mode === 'fisico' ? FIS_PROMOS : DATA.promos);
+  const allPromos = () => [...DATA.promos, ...FIS_PROMOS];
 
   const GC = {
     psplus: ['PlayStation Plus', 'linear-gradient(135deg,#1a1a1a,#3a3000 60%,#f5c400)'],
@@ -211,9 +223,11 @@
     $('#altDigital').hidden = true;
 
     const promosEl = $('#promos');
-    const showPromos = tab.promos || (state.tab === 'todo' && !state.q && !state.chips.size);
-    promosEl.hidden = !showPromos || !DATA.promos.length;
-    if (showPromos) promosEl.innerHTML = DATA.promos.map(promoCardHTML).join('');
+    const promos = promosOf(state.mode);
+    const promoHome = state.mode === 'fisico' ? ['f-todo', 'f-ps4'].includes(state.tab) : state.tab === 'todo';
+    const showPromos = tab.promos || (promoHome && !state.q && ![...state.chips].some(c => c !== 'cond:Usado'));
+    promosEl.hidden = !showPromos || !promos.length;
+    if (showPromos) promosEl.innerHTML = promos.map(promoCardHTML).join('');
 
     if (tab.promos) {
       list = [];
@@ -262,10 +276,8 @@
       : (state.mode === 'fisico' ? `Sin stock físico de <b>“${esc(state.q)}”</b>` : `No encontramos <b>“${esc(state.q)}”</b> en juegos digitales`);
     const words = norm(state.q).split(' ');
     const hints = [];
-    if (state.mode === 'digital') {
-      const promos = DATA.promos.filter(pr => pr.games.some(g => words.every(w => norm(g.name).includes(w))));
-      if (promos.length) hints.push(`<div class="hint promo-hint"><span>🔥 También en promo:</span>${promos.map(pr => `<button class="mini" data-promo="${esc(pr.id)}">${pr.pick}x1 ${pr.platform} · ${money(pr.price)}</button>`).join('')}</div>`);
-    }
+    const promos = promosOf(state.mode).filter(pr => pr.games.some(g => words.every(w => norm(g.name).includes(w))));
+    if (promos.length) hints.push(`<div class="hint promo-hint"><span>🔥 También en promo:</span>${promos.map(pr => `<button class="mini" data-promo="${esc(pr.id)}">${pr.fisico ? `${pr.badge} PS4 usados` : `${pr.pick}x1 ${pr.platform} · ${money(pr.price)}`}</button>`).join('')}</div>`);
     const other = state.mode === 'fisico' ? 'digital' : 'fisico';
     const inOther = DATA.products.filter(p => (p.category === 'fisicos') === (other === 'fisico') && words.every(w => p._s.includes(w))).length;
     const altShown = state.mode === 'fisico' && !list.length;
@@ -359,7 +371,7 @@
   function promoCardHTML(pr) {
     const imgs = pr.games.filter(g => g.image).slice(0, 5).map(g => `<img src="${esc(g.image)}" alt="" loading="lazy" referrerpolicy="no-referrer">`).join('');
     return `<div class="promo" data-promo="${esc(pr.id)}" role="button" tabindex="0">
-      <span class="plat ${pr.platform}" style="position:static;align-self:flex-start">${pr.platform} · ${pr.pick}x1</span>
+      <span class="plat ${pr.platform}" style="position:static;align-self:flex-start">${pr.platform} · ${pr.fisico ? 'físicos usados' : `${pr.pick}x1`}</span>
       <h3>${esc(pr.name)}</h3>
       <div class="stack">${imgs}</div>
       <div class="price-row"><span class="price">${money(pr.price)}</span><span class="muted">por los ${pr.pick} juegos</span></div>
@@ -369,7 +381,7 @@
 
   let picking = null;
   function openPromo(id) {
-    const pr = DATA.promos.find(x => x.id === id);
+    const pr = allPromos().find(x => x.id === id);
     if (!pr) return;
     picking = { pr, sel: [] };
     drawPromo();
@@ -382,7 +394,7 @@
       <div class="pick-head">
         <button class="icon close" data-close aria-label="Cerrar">✕</button>
         <h2>${esc(pr.name)}</h2>
-        <div class="muted">Elegí ${pr.pick} juegos · ${money(pr.price)} en total · Cuenta primaria</div>
+        <div class="muted">Elegí ${pr.pick} juegos · ${money(pr.price)} en total · ${pr.fisico ? 'Físicos usados, los retirás en el local' : 'Cuenta primaria'}</div>
       </div>
       <div class="pick-grid">${pr.games.map((g, i) => {
         const on = sel.includes(i);
@@ -562,7 +574,7 @@
     if (t.closest('#promoAdd') && picking) {
       const { pr, sel } = picking;
       const games = sel.map(i => pr.games[i].name);
-      cart.push({ key: pr.id + ':' + sel.sort((a, b) => a - b).join('-'), name: `Promo ${pr.pick}x1 ${pr.platform}`, sub: games.join(' + '), price: pr.price, qty: 1, image: pr.games[sel[0]].image || null });
+      cart.push({ key: pr.id + ':' + sel.sort((a, b) => a - b).join('-'), name: pr.fisico ? `Promo ${pr.badge} PS4 usados` : `Promo ${pr.pick}x1 ${pr.platform}`, sub: games.join(' + '), price: pr.price, qty: 1, image: pr.games[sel[0]].image || null });
       saveCart();
       $('#promoDlg').close();
       toast('Promo agregada al pedido');
@@ -641,6 +653,11 @@
         p._s = norm(`${p.name} ${p.platform} ${p.brand || ''} ${(p.includes || []).join(' ')}`);
         p._rank = (p.image ? 3 : 0) + (p.oldPrice ? 2 : 0) + (p.type === 'preventa' ? 1 : 0) - (p.soldOut ? 5 : 0) - (p.price == null ? 1 : 0);
       }
+      FIS_PROMOS = PROMOS_FIS_DEF.map(({ filter, ...pr }) => ({
+        ...pr, fisico: true, platform: 'PS4',
+        games: DATA.products.filter(filter).sort((a, b) => !!b.image - !!a.image || a.name.localeCompare(b.name, 'es'))
+          .map(p => ({ name: p.name, image: p.image || null, soldOut: false })),
+      })).filter(pr => pr.games.length >= pr.pick);
       if (d.updated) $('#updated').textContent = 'Precios y stock actualizados: ' + new Date(d.updated).toLocaleDateString('es-AR', { day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
       const qParam = new URLSearchParams(location.search).get('q');
       const fromHash = location.hash.slice(1);
