@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 const { parseWorkbook } = require('./parse');
-const { resolveImages } = require('./images');
+const { resolveImages, loadOverrides, searchKey } = require('./images');
 const { loadFisicos, getDolarBlue, applyFixedPrices } = require('./fisicos');
 
 const ROOT = path.join(__dirname, '..');
@@ -74,8 +74,12 @@ async function main() {
   ];
   const images = noImages ? {} : await resolveImages(gameNames);
 
+  // Portada corregida a mano solo para una consola ("PS4|Ratchet & Clank": el de PS4 no es el de PS5)
+  const overrides = loadOverrides();
   for (const p of products) {
-    const img = images[lookup(p)];
+    const byPlatform = `${p.platform}|${searchKey(lookup(p))}`;
+    const img = byPlatform in overrides ? (overrides[byPlatform] && { url: overrides[byPlatform] }) : images[lookup(p)];
+    delete p.image; delete p.imageWide; // los físicos reusados de la web publicada ya traen portada
     if (img) { p.image = img.url; if (img.wide) p.imageWide = true; }
   }
   for (const pr of promos) {

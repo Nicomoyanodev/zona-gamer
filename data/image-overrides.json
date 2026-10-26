@@ -1,0 +1,23 @@
+{
+ "_info": "Portadas corregidas a mano. Clave = nombre de búsqueda del juego; 'PS4|Nombre' aplica solo a esa consola. null = sin portada (se muestra la genérica con el nombre).",
+ "Ratchet & Clank": "https://upload.wikimedia.org/wikipedia/en/3/37/Ratchet_and_Clank_cover.jpg",
+ "Horizon Zero Dawn": "https://upload.wikimedia.org/wikipedia/en/3/3e/Horizon_Zero_Dawn_cover_art.jpg",
+ "PS4|Rocksmith": "https://upload.wikimedia.org/wikipedia/en/a/ae/Rocksmith_2014_cover.jpg",
+ "Rocksmith": "https://upload.wikimedia.org/wikipedia/en/4/4a/Rocksmith_coverart.jpg",
+ "Rainbow Six Siege": "https://upload.wikimedia.org/wikipedia/en/4/47/Tom_Clancy%27s_Rainbow_Six_Siege_cover_art.jpg",
+ "Marvel's Avengers": "https://upload.wikimedia.org/wikipedia/en/c/c0/Avengers_2020_cover_art.png",
+ "Evolve": "https://upload.wikimedia.org/wikipedia/en/1/11/Evolve_Box_Art.png",
+ "Thief": "https://upload.wikimedia.org/wikipedia/en/0/02/Thief_box_art.jpg",
+ "VR Worlds": "https://upload.wikimedia.org/wikipedia/en/e/ed/PlayStation_VR_Worlds_cover_art.jpg",
+ "Street Fighter": "https://upload.wikimedia.org/wikipedia/en/9/94/Street_Fighter_6_box_art.jpg",
+ "Wukong": "https://upload.wikimedia.org/wikipedia/en/a/a6/Black_Myth_Wukong_cover_art.jpg",
+ "The Crew": "https://upload.wikimedia.org/wikipedia/en/f/ff/The_Crew_box_art.jpg",
+ "Rock Band": "https://upload.wikimedia.org/wikipedia/en/e/e0/Rock_band_cover.jpg",
+ "Active 2": "https://upload.wikimedia.org/wikipedia/en/2/27/Easportsactive2.jpg",
+ "Labo": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/43/Labo-logo-make-play.svg/500px-Labo-logo-make-play.svg.png",
+ "Minecraft": null,
+ "Monopoly": null,
+ "Dragon Quest": null,
+ "The Shoot": null,
+ "Divinity": null
+}

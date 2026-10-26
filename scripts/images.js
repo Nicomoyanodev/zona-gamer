@@ -152,7 +152,7 @@ async function resolveImages(names, { concurrency = 4, log = true } = {}) {
   const overrides = loadJSON(OVERRIDES_FILE, {});
   const keys = [...new Set(names.map(searchKey))];
   const retry = process.argv.includes('--reintentar');
-  const todo = keys.filter(k => !overrides[k] && (!(k in cache) || (retry && cache[k] === null)));
+  const todo = keys.filter(k => !(k in overrides) && (!(k in cache) || (retry && cache[k] === null)));
   if (log) console.log(`Portadas: ${keys.length} juegos distintos, ${todo.length} por buscar`);
   let done = 0, found = 0;
   const save = () => fs.writeFileSync(CACHE_FILE, JSON.stringify(cache, null, 1));
@@ -171,12 +171,12 @@ async function resolveImages(names, { concurrency = 4, log = true } = {}) {
   const out = {};
   for (const n of names) {
     const k = searchKey(n);
-    out[n] = overrides[k] ? { url: overrides[k], src: 'manual' } : cache[k] || null;
+    out[n] = k in overrides ? (overrides[k] ? { url: overrides[k], src: 'manual' } : null) : cache[k] || null;
   }
   return out;
 }
 
-module.exports = { resolveImages, searchKey, similarity, steamHeader, urlExists, CACHE_FILE };
+module.exports = { resolveImages, loadOverrides: () => loadJSON(OVERRIDES_FILE, {}), searchKey, similarity, steamHeader, urlExists, CACHE_FILE };
 
 if (require.main === module) {
   (async () => {
