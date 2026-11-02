@@ -3,7 +3,7 @@
   const WHATSAPP = '5493513845195';
   const PAGE = 48;
   // Cuotas sin interés por tipo de juego
-  const CUOTAS = { digital: 3, fisico: 6 };
+  const CUOTAS = { digital: 3, fisico: 3 };
   const cuotasDe = p => (p.category === 'fisicos' ? CUOTAS.fisico : ['juegos', 'preventas'].includes(p.category) ? CUOTAS.digital : 0);
   const SEGA_MIN = 10; // compra mínima de cartuchos Sega (según el proveedor)
 
