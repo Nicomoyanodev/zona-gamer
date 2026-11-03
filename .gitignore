@@ -3,4 +3,3 @@ data/proveedor.xlsx
 data/*.log
 public/data/catalogo.json
 data/sheet-id.txt
-sitios/

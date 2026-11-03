@@ -1,6 +1,6 @@
 // Servidor local para ver la web: node scripts/serve.js  ->  http://localhost:8080
 const http = require('http'), fs = require('fs'), path = require('path');
-// Carpeta a mostrar: public (Zona Gamer) o la de una sucursal, ej. node scripts/serve.js sitios/dinotech
+// Carpeta a mostrar (por defecto public)
 const ROOT = path.resolve(__dirname, '..', process.argv[2] || 'public');
 const TYPES = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.json': 'application/json', '.png': 'image/png', '.jpg': 'image/jpeg', '.svg': 'image/svg+xml' };
 const port = +process.env.PORT || 8080;

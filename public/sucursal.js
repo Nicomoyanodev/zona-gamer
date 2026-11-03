@@ -1,5 +1,4 @@
-// Datos de la sucursal que muestra esta web. La web de cada sucursal tiene el suyo
-// (el de DINOTECH lo arma scripts/sucursal.js con sucursales/dinotech/config.json).
+// Datos del local que usa app.js (nombre, WhatsApp, dónde se retiran los físicos)
 window.SUCURSAL = {
   nombre: 'Zona Gamer',
   whatsapp: '5493513845195',

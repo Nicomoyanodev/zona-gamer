@@ -2,9 +2,8 @@
 const fs = require('fs');
 const path = require('path');
 const { parseWorkbook } = require('./parse');
-const { applyCovers, coverName } = require('./images');
+const { applyCovers } = require('./images');
 const { stampAssets } = require('./sello');
-const { sucursales } = require('./sucursal');
 const { loadFisicos, getDolarBlue, applyFixedPrices } = require('./fisicos');
 
 const ROOT = path.join(__dirname, '..');
@@ -66,16 +65,7 @@ async function main() {
   }
   products.push(...fisicos);
 
-  // Las portadas de los físicos de las sucursales (DINOTECH) también se buscan acá, para que
-  // queden guardadas en data/image-cache.json: la web de la sucursal se arma en otro repo y no puede guardarlas.
-  const extraNames = [];
-  if (!noImages) {
-    for (const s of sucursales()) {
-      try { extraNames.push(...(await loadFisicos({ log: false, dolar, folderId: s.fisicosDrive, fixedPrices: false })).map(coverName)); }
-      catch (e) { console.warn(`No se pudieron leer los físicos de ${s.nombre} para buscar portadas (${e.message})`); }
-    }
-  }
-  await applyCovers(products, promos, { noImages, extraNames });
+  await applyCovers(products, promos, { noImages });
 
   const withImg = products.filter(p => p.image).length;
   const games = products.filter(p => ['juegos', 'preventas', 'fisicos'].includes(p.category)).length;
