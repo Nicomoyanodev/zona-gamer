@@ -37,3 +37,14 @@ La web está en **https://zonagamer.app** (GitHub Pages + dominio en Cloudflare)
 
 En GitHub, `.github/workflows/actualizar.yml` regenera y publica la web en GitHub Pages
 todos los días a las 7:00 y a las 15:00, y cada vez que se suben cambios.
+
+## Sucursal DINOTECH (dinotech.ar)
+
+Misma web y mismos juegos digitales que Zona Gamer, con su nombre, su WhatsApp, su dirección y su propio stock de físicos.
+
+- **Datos de la sucursal:** `sucursales/dinotech/config.json` (nombre, WhatsApp, dirección, carpeta de Drive).
+- **Stock de físicos:** los PDFs de la carpeta de Drive de DINOTECH (formato "PS4 / USADO / NOMBRE", con precio). Se usa el precio del PDF.
+- **Logo:** poner `logo.png`, `emblema.png` y `favicon.png` en `sucursales/dinotech/img/`. Mientras no estén, se muestra el nombre escrito.
+- **Armarla en la compu:** `npm run dinotech` (queda en `sitios/dinotech`) y `npm run ver-dinotech` la abre en http://localhost:8080.
+- **Publicación:** el repo `dinotech` tiene solo la tarea automática de `sucursales/dinotech/publicar/`, que baja este repo, arma la web cada 4 horas y la publica en GitHub Pages con el dominio dinotech.ar.
+- Las portadas de los juegos de DINOTECH las busca la actualización de Zona Gamer, que es la que las guarda en `data/image-cache.json`.

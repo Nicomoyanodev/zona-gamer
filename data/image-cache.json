@@ -10652,5 +10652,149 @@
   "src": "wikipedia-en",
   "match": "Knack (video game)"
  },
- "Plants Vs Zombies GW2": null
+ "Plants Vs Zombies GW2": null,
+ "Crash Bandicoot Trilogy": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/731490/library_600x900.jpg",
+  "src": "steam",
+  "match": "Crash Bandicoot™ N. Sane Trilogy"
+ },
+ "Cars": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1170720/library_600x900.jpg",
+  "src": "steam",
+  "match": "Pocket Cars"
+ },
+ "Dissidia Final Fantasy Nt": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/921590/library_600x900.jpg",
+  "src": "steam",
+  "match": "DISSIDIA FINAL FANTASY NT Free Edition"
+ },
+ "Car Mechanic Simulator": null,
+ "Driveclub VR": null,
+ "God Of War Remasterizado": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/library_600x900.jpg",
+  "src": "steam",
+  "match": "God of War",
+  "loose": true
+ },
+ "Gundam Versus": null,
+ "J Stars Victory Vs": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/a/a0/J_Stars_Victory_VS.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "J-Stars Victory VS"
+ },
+ "Kingdom Hearts HD 2.8": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/2552440/library_600x900.jpg",
+  "src": "steam",
+  "match": "KINGDOM HEARTS HD 2.8 Final Chapter Prologue"
+ },
+ "Kingdom Hearts 3": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/5/5c/Kingdom_Hearts_III_box_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Kingdom Hearts III"
+ },
+ "Eagle Flight": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/408250/header.jpg?t=1694554663",
+  "src": "steam",
+  "match": "Eagle Flight",
+  "wide": true
+ },
+ "La Noire": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/110800/library_600x900.jpg",
+  "src": "steam",
+  "match": "L.A. Noire"
+ },
+ "Legendary Eleven": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/839300/library_600x900.jpg",
+  "src": "steam",
+  "match": "Legendary Eleven: Epic Football"
+ },
+ "Kung Fu Panda": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/9/99/Kung_Fu_Panda_Game_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Kung Fu Panda (video game)"
+ },
+ "Madden 16": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/f/f7/Odell_Beckham_Jr._Madden_NFL_16_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Madden NFL 16"
+ },
+ "MLB 14 The Show": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/ed/MLB_14_The_Show_Cover_Art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "MLB 14: The Show"
+ },
+ "Metal Gear Solid V Day One Edition": null,
+ "Mount & Blade Warband": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/48700/library_600x900.jpg",
+  "src": "steam",
+  "match": "Mount & Blade: Warband"
+ },
+ "NHL 17": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/a/a2/NHL_17_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "NHL 17"
+ },
+ "My Hero One Justice 2": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1058450/library_600x900.jpg",
+  "src": "steam",
+  "match": "MY HERO ONE'S JUSTICE 2"
+ },
+ "MXGP 2": null,
+ "Plants Vs Zombies": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3654560/2a3015b525e5d4da6d2c1a517d0a8c1504b1eee8/header.jpg?t=1763401327",
+  "src": "steam",
+  "match": "Plants vs. Zombies™: Replanted",
+  "wide": true
+ },
+ "Rabbids Invasion": null,
+ "Rise Of The Tomb Raider": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/391220/library_600x900.jpg",
+  "src": "steam",
+  "match": "Rise of the Tomb Raider™"
+ },
+ "Rory Mcilroy PGA Tour": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/b/b1/EA_Sports_PGA.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Rory McIlroy PGA Tour"
+ },
+ "Shadow Of The Tomb Raider": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/750920/library_600x900.jpg",
+  "src": "steam",
+  "match": "Shadow of the Tomb Raider: Definitive Edition"
+ },
+ "Shadow Warrior": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/233130/library_600x900.jpg",
+  "src": "steam",
+  "match": "Shadow Warrior"
+ },
+ "Starblood Arena": null,
+ "Skater Xl": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/962730/library_600x900.jpg",
+  "src": "steam",
+  "match": "Skater XL - The Ultimate Skateboarding Game"
+ },
+ "Song Of The Deep": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/460700/library_600x900.jpg",
+  "src": "steam",
+  "match": "Song of the Deep"
+ },
+ "The Elder Scrolls Online": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/306130/library_600x900.jpg",
+  "src": "steam",
+  "match": "The Elder Scrolls® Online"
+ },
+ "Heavy Rain & Beyond Two Souls": null,
+ "Tom Clancy's Rainbow Six": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/359550/library_600x900.jpg",
+  "src": "steam",
+  "match": "Tom Clancy's Rainbow Six Siege"
+ },
+ "Tom Clancy's The Division": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/365590/library_600x900.jpg",
+  "src": "steam",
+  "match": "Tom Clancy’s The Division™"
+ },
+ "Paragon Esencial": null,
+ "Pro Evolution Soccer 2017": null,
+ "Pro Evolution Soccer 2019": null
 }

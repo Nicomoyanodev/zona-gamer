@@ -2,7 +2,9 @@
 const fs = require('fs');
 const path = require('path');
 const { parseWorkbook } = require('./parse');
-const { resolveImages, loadOverrides, searchKey } = require('./images');
+const { applyCovers, coverName } = require('./images');
+const { stampAssets } = require('./sello');
+const { sucursales } = require('./sucursal');
 const { loadFisicos, getDolarBlue, applyFixedPrices } = require('./fisicos');
 
 const ROOT = path.join(__dirname, '..');
@@ -64,27 +66,16 @@ async function main() {
   }
   products.push(...fisicos);
 
-  // Qué nombre usar para buscar la portada de cada cosa
-
-  const lookup = p => (p.type === 'combo' && p.includes && p.includes[0]) ||
-    (p.category === 'fisicos' ? p.name.replace(/\b(Sin Caja|Series X|Edición Especial)\b/gi, '').replace(/^GTA V$/i, 'Grand Theft Auto V').replace(/\s{2,}/g, ' ').trim() : p.name);
-  const gameNames = [
-    ...products.filter(p => ['juegos', 'preventas', 'fisicos'].includes(p.category)).map(lookup),
-    ...promos.flatMap(pr => pr.games.map(g => g.name)),
-  ];
-  const images = noImages ? {} : await resolveImages(gameNames);
-
-  // Portada corregida a mano solo para una consola ("PS4|Ratchet & Clank": el de PS4 no es el de PS5)
-  const overrides = loadOverrides();
-  for (const p of products) {
-    const byPlatform = `${p.platform}|${searchKey(lookup(p))}`;
-    const img = byPlatform in overrides ? (overrides[byPlatform] && { url: overrides[byPlatform] }) : images[lookup(p)];
-    delete p.image; delete p.imageWide; // los físicos reusados de la web publicada ya traen portada
-    if (img) { p.image = img.url; if (img.wide) p.imageWide = true; }
+  // Las portadas de los físicos de las sucursales (DINOTECH) también se buscan acá, para que
+  // queden guardadas en data/image-cache.json: la web de la sucursal se arma en otro repo y no puede guardarlas.
+  const extraNames = [];
+  if (!noImages) {
+    for (const s of sucursales()) {
+      try { extraNames.push(...(await loadFisicos({ log: false, dolar, folderId: s.fisicosDrive, fixedPrices: false })).map(coverName)); }
+      catch (e) { console.warn(`No se pudieron leer los físicos de ${s.nombre} para buscar portadas (${e.message})`); }
+    }
   }
-  for (const pr of promos) {
-    for (const g of pr.games) { const img = images[g.name]; if (img) g.image = img.url; }
-  }
+  await applyCovers(products, promos, { noImages, extraNames });
 
   const withImg = products.filter(p => p.image).length;
   const games = products.filter(p => ['juegos', 'preventas', 'fisicos'].includes(p.category)).length;
@@ -93,21 +84,7 @@ async function main() {
   fs.mkdirSync(path.dirname(OUT), { recursive: true });
   fs.writeFileSync(OUT, JSON.stringify({ updated: new Date().toISOString(), dolar, products, promos, infos }));
   console.log(`Listo: ${path.relative(ROOT, OUT)} (${Math.round(fs.statSync(OUT).size / 1024)} KB)`);
-  stampAssets();
-}
-
-// Cloudflare guarda app.js y styles.css por horas: se agrega ?v=<hash> para que
-// cuando cambian, los navegadores bajen la versión nueva enseguida.
-function stampAssets() {
-  const crypto = require('crypto');
-  const pub = path.join(ROOT, 'public');
-  const file = path.join(pub, 'index.html');
-  let html = fs.readFileSync(file, 'utf8');
-  for (const asset of ['styles.css', 'app.js']) {
-    const v = crypto.createHash('md5').update(fs.readFileSync(path.join(pub, asset))).digest('hex').slice(0, 8);
-    html = html.replace(new RegExp(`(["'])${asset.replace('.', '\\.')}(\\?v=[\\w]+)?\\1`), `$1${asset}?v=${v}$1`);
-  }
-  fs.writeFileSync(file, html);
+  stampAssets(path.join(ROOT, 'public'));
 }
 
 main().catch(e => { console.error(e.message); process.exit(1); });

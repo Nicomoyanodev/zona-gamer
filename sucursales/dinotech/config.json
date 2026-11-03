@@ -1,0 +1,13 @@
+{
+  "_ayuda": "Datos de la sucursal DINOTECH. Los juegos digitales y tarjetas son los mismos de Zona Gamer; los físicos salen de los PDFs de la carpeta de Drive 'fisicosDrive'. El logo va en sucursales/dinotech/img/ (logo.png = logo completo, emblema.png = ícono del encabezado, favicon.png = ícono de la pestaña): mientras no esté, se muestra el nombre escrito con 'logoTexto'.",
+  "nombre": "DINOTECH",
+  "logoTexto": ["DINO", "TECH"],
+  "dominio": "dinotech.ar",
+  "whatsapp": "5493518193051",
+  "whatsappTexto": "+54 9 351 819-3051",
+  "direccion": "Av. Fuerza Aérea Argentina 1700",
+  "ciudad": "Córdoba Capital",
+  "retiro": "Av. Fuerza Aérea Argentina 1700",
+  "heroFisicos": "Stock real del local en Av. Fuerza Aérea Argentina 1700. Pedilo por WhatsApp y te lo reservamos.",
+  "fisicosDrive": "1Dw-Mqh0KuYTl1MyFzSBO_YaHNdZbqdQ5"
+}

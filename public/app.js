@@ -1,6 +1,8 @@
-/* Zona Gamer – catálogo */
+/* Catálogo (Zona Gamer y sus sucursales: los datos de cada una están en sucursal.js) */
 (() => {
-  const WHATSAPP = '5493513845195';
+  const SUC = Object.assign({ nombre: 'Zona Gamer', whatsapp: '5493513845195', retiro: 'Nuevocentro Shopping, Stand 1.05', heroFisicos: 'Stock real del local. Pedilo por WhatsApp y te lo reservamos.' }, window.SUCURSAL);
+  const WHATSAPP = SUC.whatsapp;
+  const HOLA = `¡Hola ${SUC.nombre}!`;
   const PAGE = 48;
   // Cuotas sin interés por tipo de juego
   const CUOTAS = { digital: 3, fisico: 3 };
@@ -39,6 +41,10 @@
     { id: 'f-x360', mode: 'fisico', label: 'Xbox 360', filter: p => p.category === 'fisicos' && p.platform === 'Xbox 360' },
   ];
   const modeOf = t => t.mode || 'digital';
+  // Las pestañas de consolas de físicos sin stock no se muestran (la sucursal puede no tener todas)
+  const tabVisible = t => t.mode !== 'fisico' || t.id === 'f-todo' || (t.promos ? FIS_PROMOS.length > 0 : DATA.products.some(t.filter));
+  // Estados de físicos que hay en stock (una sucursal puede tener solo usados)
+  const hayFisico = cond => DATA.products.some(p => p.category === 'fisicos' && p.condition === cond);
 
   // Promos de juegos físicos (se arman con el stock del catálogo)
   const usadoPS4 = p => p.category === 'fisicos' && p.platform === 'PS4' && p.condition === 'Usado';
@@ -196,7 +202,7 @@
 
   function render() {
     const tab = TABS.find(t => t.id === state.tab);
-    $('#tabs').innerHTML = TABS.filter(t => modeOf(t) === state.mode).map(t => `<button class="tab" data-tab="${t.id}" aria-current="${t.id === state.tab}">${t.label}</button>`).join('');
+    $('#tabs').innerHTML = TABS.filter(t => modeOf(t) === state.mode && tabVisible(t)).map(t => `<button class="tab" data-tab="${t.id}" aria-current="${t.id === state.tab}">${t.label}</button>`).join('');
     document.querySelectorAll('.mode-btn').forEach(b => b.setAttribute('aria-selected', String(b.dataset.mode === state.mode)));
     const fis = state.mode === 'fisico';
     const nC = fis ? CUOTAS.fisico : CUOTAS.digital;
@@ -205,9 +211,9 @@
     $('#cuotasStrip').classList.toggle('fis', fis);
     $('#cuotasBadge').innerHTML = `<b>${nC}</b><span>cuotas<br>sin interés</span>`;
     $('#cuotasBadge').classList.toggle('fis', fis);
-    $('#heroTitle').innerHTML = fis ? 'Juegos físicos <em>nuevos y usados</em>' : 'Juegos digitales <em>PS5 · PS4 · PS3</em> y tarjetas de saldo';
+    $('#heroTitle').innerHTML = fis ? `Juegos físicos <em>${hayFisico('Nuevo') && hayFisico('Usado') ? 'nuevos y usados' : hayFisico('Nuevo') ? 'nuevos' : 'usados'}</em>` : 'Juegos digitales <em>PS5 · PS4 · PS3</em> y tarjetas de saldo';
     $('#heroText').textContent = fis
-      ? 'Stock real del local en Nuevocentro Shopping. Pedilo por WhatsApp y te lo reservamos.'
+      ? SUC.heroFisicos
       : 'Elegí lo que quieras, armá tu pedido y mandalo por WhatsApp. Te respondemos al toque.';
     $('#q').placeholder = fis ? 'Buscar juego físico…' : 'Buscar juego, tarjeta…';
     renderChips(tab);
@@ -304,7 +310,7 @@
     if (['todo', 'ps5', 'ps4', 'ps3', 'preventas'].includes(tab.id)) chips.push(['oferta', 'En oferta']);
     if (['todo', 'ps5', 'ps4', 'ps3'].includes(tab.id)) chips.push(['packs', 'Packs y combos']);
     if (tab.id === 'ps3') chips.push(['nuevos', 'Nuevos']);
-    if (tab.mode === 'fisico') chips.push(['cond:Nuevo', 'Nuevos'], ['cond:Usado', 'Usados']);
+    if (tab.mode === 'fisico' && hayFisico('Nuevo') && hayFisico('Usado')) chips.push(['cond:Nuevo', 'Nuevos'], ['cond:Usado', 'Usados']);
     if (tab.id === 'ps5') chips.push(['retro', 'Retro']);
     if (tab.id === 'tarjetas') {
       const seen = new Set();
@@ -334,7 +340,7 @@
     if (p.account === 'Primaria') extra += `<div class="info"><p><b>¿Qué es una cuenta primaria?</b></p><p>Te damos una cuenta con el juego comprado. La configurás como principal en tu consola, descargás el juego y lo jugás con <b>tu propio usuario</b>, con tus trofeos y partidas guardadas.</p></div>`;
     if (p.retro) extra += `<div class="info"><p><b>Retro:</b> título de la línea Retro que ofrece Sony en la tienda de PlayStation.</p></div>`;
     if (p.category === 'retro') extra += `<div class="info"><p><b>Compra mínima: 10 cartuchos</b> (podés combinar distintos títulos).</p></div>`;
-    if (p.category === 'fisicos') extra += `<div class="info"><p><b>Juego físico ${p.condition.toLowerCase()}.</b> Lo retirás en el local (Nuevocentro Shopping, Stand 1.05). ${p.price == null ? 'Consultanos el precio por WhatsApp y te lo reservamos.' : 'Pedilo por WhatsApp y te lo reservamos.'}</p></div>`;
+    if (p.category === 'fisicos') extra += `<div class="info"><p><b>Juego físico ${p.condition.toLowerCase()}.</b> Lo retirás en el local (${esc(SUC.retiro)}). ${p.price == null ? 'Consultanos el precio por WhatsApp y te lo reservamos.' : 'Pedilo por WhatsApp y te lo reservamos.'}</p></div>`;
     if (p.type === 'preventa') extra += `<div class="info"><p><b>Preventa:</b> lo reservás ahora y lo recibís el día del lanzamiento.</p></div>`;
     if (p.includes?.length) extra += `<p><b>Incluye ${p.includes.length} juegos:</b></p><ul class="includes">${p.includes.map(i => `<li>${esc(i)}</li>`).join('')}</ul>${(p.notes || []).map(n => `<p class="muted">${esc(n)}</p>`).join('')}`;
     const vid = videoFor(p);
@@ -452,7 +458,7 @@
       <h2 class="section-title" id="h-canjear" style="margin-top:34px">Cómo canjear tarjetas y códigos</h2>
       <p class="count">Te mandamos el código por WhatsApp. Estos videos muestran dónde ingresarlo en cada plataforma.</p>
       <div class="videos">${redeem}</div>` : ''}
-      <div class="howto-help"><p>¿Te trabaste en algún paso? Te ayudamos.</p><a class="btn wa" target="_blank" rel="noopener" href="${waLink('¡Hola Zona Gamer! Necesito ayuda para instalar un juego o canjear un código.')}">Pedir ayuda por WhatsApp</a></div>`;
+      <div class="howto-help"><p>¿Te trabaste en algún paso? Te ayudamos.</p><a class="btn wa" target="_blank" rel="noopener" href="${waLink(HOLA + ' Necesito ayuda para instalar un juego o canjear un código.')}">Pedir ayuda por WhatsApp</a></div>`;
   }
 
   /* ---------- Carrito ---------- */
@@ -494,12 +500,12 @@
     const total = cart.reduce((s, x) => s + (x.price || 0) * x.qty, 0);
     const toAsk = cart.some(x => x.price == null);
     const totalLine = total ? `*Total: ${money(total)}*${toAsk ? ' + los productos a consultar' : ''}` : '¿Me pasás el precio y si está disponible?';
-    return `¡Hola Zona Gamer! Quiero hacer este pedido:\n\n${lines.join('\n')}\n\n${totalLine}\n\n(Pedido desde la web)`;
+    return `${HOLA} Quiero hacer este pedido:\n\n${lines.join('\n')}\n\n${totalLine}\n\n(Pedido desde la web)`;
   }
   function askText(p) {
-    if (p.category === 'fisicos' && p.price == null) return `¡Hola Zona Gamer! Quería consultar el precio de:\n\n• ${p.name} (${lineSub(p)})\n\n¿Lo tienen disponible?`;
-    if (p.price == null) return `¡Hola Zona Gamer! Quería consultar por: ${p.name} (${p.platform}).`;
-    return `¡Hola Zona Gamer! Quiero comprar:\n\n• ${p.name} (${lineSub(p)}) — ${money(p.price)}\n\n¿Está disponible?`;
+    if (p.category === 'fisicos' && p.price == null) return `${HOLA} Quería consultar el precio de:\n\n• ${p.name} (${lineSub(p)})\n\n¿Lo tienen disponible?`;
+    if (p.price == null) return `${HOLA} Quería consultar por: ${p.name} (${p.platform}).`;
+    return `${HOLA} Quiero comprar:\n\n• ${p.name} (${lineSub(p)}) — ${money(p.price)}\n\n¿Está disponible?`;
   }
   function openCart(open) {
     $('#drawer').classList.toggle('open', open);
@@ -640,7 +646,7 @@
   // Carga automática al llegar al final
   new IntersectionObserver(es => { if (es[0].isIntersecting && !$('#more').hidden) more(); }, { rootMargin: '600px' }).observe($('#more'));
 
-  const hello = waLink('¡Hola Zona Gamer! Quería hacer una consulta.');
+  const hello = waLink(HOLA + ' Quería hacer una consulta.');
   ['#heroWa', '#footWa', '#emptyWa'].forEach(s => { $(s).href = hello; });
 
   /* ---------- Inicio ---------- */

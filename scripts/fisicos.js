@@ -83,6 +83,11 @@ const TYPOS = [
   [/\bDestiny La Coleccion\b/i, 'Destiny The Collection'], [/\bEdicion Completo\b/i, 'Complete Edition'],
   [/\bMarvel Avengers\b/i, "Marvel's Avengers"], [/\bTiger Woods PGA TOUR ?08\b/i, 'Tiger Woods PGA Tour 08'],
   [/\bEdicion Especial (.+)$/i, '$1 Edición Especial'], [/\bStreet Fighters\b/i, 'Street Fighter'],
+  // Listado de DINOTECH
+  [/\bBandicool\b/i, 'Bandicoot'], [/\bTrylogy\b/i, 'Trilogy'], [/\bMasseffect\b/i, 'Mass Effect'],
+  [/\bMetal Gear Solidy\b/i, 'Metal Gear Solid V'], [/\bStrom\b/i, 'Storm'], [/\bSiarblood\b/i, 'Starblood'],
+  [/\bMount Blade War ?Band\b/i, 'Mount & Blade Warband'], [/\bThe Heavy Rain Y Beyond\b/i, 'Heavy Rain & Beyond Two Souls'],
+  [/\bNHL ?(\d+)/i, 'NHL $1'], [/\bMXGP ?(\d+)/i, 'MXGP $1'], [/\bTom Clancys\b/i, "Tom Clancy's"],
 ];
 
 // "GRAN TURISMO 7 NUEVO SELLADO PS4" -> "Gran Turismo 7"
@@ -191,6 +196,54 @@ function parseLines(lines, { platform, condition, file }) {
   return items;
 }
 
+// Formato de listado de DINOTECH: un renglón por juego, "Stock | PS4 / USADO / NOMBRE | Alícuota | Final".
+// Las columnas se ubican por el encabezado; cada número va a la columna más cercana.
+function parseListado(lines, { platform, condition, file }) {
+  const items = [];
+  let cols = null;
+  for (const row of lines) {
+    const text = row.map(c => c.s).join(' ');
+    if (/\bProducto\b/i.test(text) && /\b(Stock|Cant)/i.test(text)) {
+      cols = {};
+      for (const c of row) {
+        if (/stock|cant/i.test(c.s)) cols.stock = c.x;
+        else if (/al[ií]cuota|iva/i.test(c.s)) cols.iva = c.x;
+        else if (/final|precio|importe/i.test(c.s)) cols.precio = c.x;
+      }
+      continue;
+    }
+    const prod = row.find(c => /\s\/\s/.test(c.s));
+    if (!cols || !prod) continue;
+    const columnOf = x => {
+      let best = null, dist = Infinity;
+      for (const [k, cx] of Object.entries(cols)) { const d = Math.abs(cx - x); if (d < dist) { dist = d; best = k; } }
+      return dist < 90 ? best : null;
+    };
+    let stock = null, price = null, currency = 'ARS';
+    for (const c of row) {
+      if (c === prod || !isNumberish(c.s)) continue;
+      const col = columnOf(c.x);
+      if (col === 'stock') stock = Math.round(parseFloat(c.s.replace(/[$\s.]/g, '').replace(',', '.')));
+      else if (col === 'precio') { price = parseMoney(c.s); currency = isUsd(c.s) ? 'USD' : 'ARS'; }
+    }
+    if (!(stock > 0)) continue;
+    // "PS4 / USADO / CRASH BANDICOOT" -> consola, estado y nombre
+    const parts = prod.s.split(/\s+\/\s+/);
+    const raw = parts.length >= 3 ? parts.slice(2).join(' ') : parts[parts.length - 1];
+    items.push({
+      raw: prod.s,
+      name: cleanName(raw),
+      platform: /\b3DS\b/i.test(prod.s) ? '3DS' : platformOf(parts[0]) || platform,
+      condition: parts.length >= 3 ? (/USAD|OUTLET/i.test(parts[1]) ? 'Usado' : 'Nuevo') : condition,
+      stock,
+      price,
+      currency: price != null ? currency : null,
+      file,
+    });
+  }
+  return items;
+}
+
 // Los precios en dólares del PDF se pasan a pesos con el dólar blue (venta) + USD_EXTRA pesos por dólar.
 const USD_EXTRA = 20;
 
@@ -229,18 +282,26 @@ function applyFixedPrices(list) {
   return list;
 }
 
-async function loadFisicos({ log = true, dolar = null } = {}) {
-  const top = await listFolder(FOLDER_ID);
+// folderId: carpeta de Drive con una subcarpeta por consola, o con los PDFs sueltos
+// (en ese caso la consola sale del nombre del archivo, ej. "JUEGOS USADOS PS4.pdf").
+// fixedPrices: aplicar los precios fijos de Zona Gamer (PRECIO_FIJO).
+async function loadFisicos({ log = true, dolar = null, folderId = FOLDER_ID, fixedPrices = true } = {}) {
+  const top = await listFolder(folderId);
   const folders = top.filter(x => x.type === 'folder');
-  if (!folders.length) throw new Error('La carpeta de Drive de físicos está vacía o no es pública');
+  const sueltos = top.filter(x => x.type === 'file' && /\.pdf$/i.test(x.name));
+  if (!folders.length && !sueltos.length) throw new Error('La carpeta de Drive de físicos está vacía o no es pública');
+  const groups = [];
+  for (const folder of folders) groups.push({ label: folder.name, platform: platformOf(folder.name), files: (await listFolder(folder.id)).filter(x => x.type === 'file') });
+  if (sueltos.length) groups.push({ label: 'Drive', platform: null, files: sueltos });
   const all = [];
   const needDolar = () => { if (!dolar) throw new Error('Hay precios en dólares pero no hay cotización del dólar blue'); return dolar; };
-  for (const folder of folders) {
-    const platform = platformOf(folder.name) || folder.name;
-    for (const f of (await listFolder(folder.id)).filter(x => x.type === 'file')) {
+  for (const folder of groups) {
+    for (const f of folder.files) {
+      const platform = folder.platform || platformOf(f.name) || folder.label;
       const condition = /USAD/i.test(f.name) ? 'Usado' : 'Nuevo';
       const lines = await pdfLines(await download(f.id));
-      const items = parseLines(lines, { platform, condition, file: f.name });
+      let items = parseLines(lines, { platform, condition, file: f.name });
+      if (!items.length) items = parseListado(lines, { platform, condition, file: f.name });
       for (const it of items) {
         if (it.currency === 'USD') { it.priceUsd = it.price; it.price = usdToArs(it.price, needDolar()); }
         if (it.price != null && it.price < MIN_PRICE) {
@@ -248,7 +309,7 @@ async function loadFisicos({ log = true, dolar = null } = {}) {
           it.price = null; delete it.priceUsd;
         }
       }
-      if (log) console.log(`  ${folder.name} / ${f.name}: ${items.length} juegos, ${items.filter(i => i.price).length} con precio (${items.filter(i => i.priceUsd).length} en dólares)`);
+      if (log) console.log(`  ${folder.label} / ${f.name}: ${items.length} juegos, ${items.filter(i => i.price).length} con precio (${items.filter(i => i.priceUsd).length} en dólares)`);
       all.push(...items);
     }
   }
@@ -270,10 +331,10 @@ async function loadFisicos({ log = true, dolar = null } = {}) {
       oldPrice: null,
     });
   }
-  return applyFixedPrices([...byId.values()]);
+  return fixedPrices ? applyFixedPrices([...byId.values()]) : [...byId.values()];
 }
 
-module.exports = { loadFisicos, applyFixedPrices, getDolarBlue, usdToArs, USD_EXTRA, MIN_PRICE, cleanName, parseLines, pdfLines, parseMoney };
+module.exports = { loadFisicos, applyFixedPrices, getDolarBlue, usdToArs, USD_EXTRA, MIN_PRICE, cleanName, parseLines, parseListado, pdfLines, parseMoney };
 
 if (require.main === module) {
   getDolarBlue().then(dolar => { console.log('Dólar blue:', dolar); return loadFisicos({ dolar }); }).then(list => {

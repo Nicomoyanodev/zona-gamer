@@ -6,7 +6,9 @@
     "actualizar": "node scripts/build.js",
     "ver": "node scripts/serve.js",
     "reintentar-portadas": "node scripts/build.js --reintentar",
-    "verificar-portadas": "node scripts/verificar-portadas.js"
+    "verificar-portadas": "node scripts/verificar-portadas.js",
+    "dinotech": "node scripts/sucursal.js dinotech",
+    "ver-dinotech": "node scripts/serve.js sitios/dinotech"
   },
   "keywords": [],
   "author": "",

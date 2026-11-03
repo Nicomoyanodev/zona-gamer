@@ -176,7 +176,36 @@ async function resolveImages(names, { concurrency = 4, log = true } = {}) {
   return out;
 }
 
-module.exports = { resolveImages, loadOverrides: () => loadJSON(OVERRIDES_FILE, {}), searchKey, similarity, steamHeader, urlExists, CACHE_FILE };
+// Qué nombre usar para buscar la portada de cada producto
+function coverName(p) {
+  return (p.type === 'combo' && p.includes && p.includes[0]) ||
+    (p.category === 'fisicos' ? p.name.replace(/\b(Sin Caja|Series X|Edición Especial)\b/gi, '').replace(/^GTA V$/i, 'Grand Theft Auto V').replace(/\s{2,}/g, ' ').trim() : p.name);
+}
+
+// Busca (o toma de la caché) la portada de cada juego y la pone en el producto.
+// extraNames: otros juegos a buscar para dejarlos guardados en la caché.
+async function applyCovers(products, promos, { noImages = false, extraNames = [] } = {}) {
+  const gameNames = [
+    ...products.filter(p => ['juegos', 'preventas', 'fisicos'].includes(p.category)).map(coverName),
+    ...promos.flatMap(pr => pr.games.map(g => g.name)),
+    ...extraNames,
+  ];
+  const images = noImages ? {} : await resolveImages(gameNames);
+
+  // Portada corregida a mano solo para una consola ("PS4|Ratchet & Clank": el de PS4 no es el de PS5)
+  const overrides = loadJSON(OVERRIDES_FILE, {});
+  for (const p of products) {
+    const byPlatform = `${p.platform}|${searchKey(coverName(p))}`;
+    const img = byPlatform in overrides ? (overrides[byPlatform] && { url: overrides[byPlatform] }) : images[coverName(p)];
+    delete p.image; delete p.imageWide; // los físicos reusados de la web publicada ya traen portada
+    if (img) { p.image = img.url; if (img.wide) p.imageWide = true; }
+  }
+  for (const pr of promos) {
+    for (const g of pr.games) { const img = images[g.name]; if (img) g.image = img.url; }
+  }
+}
+
+module.exports = { resolveImages, applyCovers, coverName, loadOverrides: () => loadJSON(OVERRIDES_FILE, {}), searchKey, similarity, steamHeader, urlExists, CACHE_FILE };
 
 if (require.main === module) {
   (async () => {

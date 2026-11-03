@@ -1,0 +1,55 @@
+# Tarea automática del repo "dinotech" (publica https://dinotech.ar en GitHub Pages).
+# El código está en el repo zona-gamer: acá solo se baja y se arma la web de DINOTECH
+# (digitales de zonagamer.app + físicos de la carpeta de Drive de DINOTECH).
+name: Actualizar DINOTECH
+
+on:
+  schedule:
+    - cron: '30 */4 * * *'  # cada 4 horas, media hora después de Zona Gamer (para tomar sus digitales ya actualizados)
+  workflow_dispatch:        # botón "Run workflow" para actualizar a mano
+  push:
+    branches: [main]
+
+permissions:
+  actions: write
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: Nicomoyanodev/zona-gamer
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Armar la web de DINOTECH
+        run: node scripts/sucursal.js dinotech
+      - name: Mantener activa la tarea automática
+        # GitHub pausa las tareas programadas tras 60 días sin cambios en el repo.
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api -X PUT "repos/${{ github.repository }}/actions/workflows/actualizar.yml/enable"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: sitios/dinotech
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
