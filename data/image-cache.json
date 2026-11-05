@@ -10796,5 +10796,108 @@
  },
  "Paragon Esencial": null,
  "Pro Evolution Soccer 2017": null,
- "Pro Evolution Soccer 2019": null
+ "Pro Evolution Soccer 2019": null,
+ "Mafia: The Omertà Collection": null,
+ "Little Nightmares I y II": null,
+ "Call of Duty Black Ops II": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/202970/library_600x900.jpg",
+  "src": "steam",
+  "match": "Call of Duty®: Black Ops II"
+ },
+ "Dying Light Collection": null,
+ "Shadow of mordor": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/241930/library_600x900.jpg",
+  "src": "steam",
+  "match": "Middle-earth™: Shadow of Mordor™"
+ },
+ "EA SPORTS FC 27": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4080220/ff6a3779f1ca83aae8ad3878454f6c11008ea24d/header.jpg?t=1793610006",
+  "src": "steam",
+  "match": "EA SPORTS FC™ 27",
+  "wide": true
+ },
+ "Mafia The Omertà Collection": null,
+ "MotoGP26": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3875050/b53a48a0eb23496725d62cd610096ce95a8491f1/header.jpg?t=1782460179",
+  "src": "steam",
+  "match": "MotoGP™26",
+  "wide": true
+ },
+ "NBA 2k19": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/a/ac/NBA_2K19_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "NBA 2K19"
+ },
+ "NBA 2K20": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/e/e9/NBA_2K20_cover.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "NBA 2K20"
+ },
+ "METAL GEAR SURVIVE": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/543900/header.jpg?t=1718869280",
+  "src": "steam",
+  "match": "METAL GEAR SURVIVE",
+  "wide": true
+ },
+ "Subnautica: Below Zero": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/848450/library_600x900.jpg",
+  "src": "steam",
+  "match": "Subnautica: Below Zero"
+ },
+ "Assassin's Creed: Syndicate": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/368500/library_600x900.jpg",
+  "src": "steam",
+  "match": "Assassin's Creed® Syndicate"
+ },
+ "Assassin's Creed: Unity": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/289650/library_600x900.jpg",
+  "src": "steam",
+  "match": "Assassin's Creed® Unity"
+ },
+ "NBA 2K26 para": null,
+ "Assassin's Creed: Rogue Remastered": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/a/ae/Assassin%27s_Creed_Rogue.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Assassin's Creed Rogue"
+ },
+ "Assassin's Creed: Odyssey": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/812140/library_600x900.jpg",
+  "src": "steam",
+  "match": "Assassin's Creed® Odyssey"
+ },
+ "Poppy Playtime: Chapter 1": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1721470/library_600x900.jpg",
+  "src": "steam",
+  "match": "Poppy Playtime",
+  "loose": true
+ },
+ "Marvel Spider-Man : Miles Morales": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/a/a3/Spider-Man_Miles_Morales.jpeg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Marvel's Spider-Man: Miles Morales"
+ },
+ "Valentino Rossi: The Official Videogame": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/438430/library_600x900.jpg",
+  "src": "steam",
+  "match": "Valentino Rossi The Game",
+  "loose": true
+ },
+ "Assassin's Creed: The Ezio Collection": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3159330/library_600x900.jpg",
+  "src": "steam",
+  "match": "Assassin’s Creed Shadows",
+  "loose": true
+ },
+ "Poppy Playtime: Chapter 4": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/3008670/header.jpg?t=1789515283",
+  "src": "steam",
+  "match": "Poppy Playtime - Chapter 4",
+  "wide": true
+ },
+ "Metal Gear Solid V: The Definitive Experience": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/287700/library_600x900.jpg",
+  "src": "steam",
+  "match": "METAL GEAR SOLID V: THE PHANTOM PAIN",
+  "loose": true
+ }
 }
