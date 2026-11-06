@@ -10908,5 +10908,10 @@
  },
  "WWE 2k 22": null,
  "Golf PGA Tour 2K 21": null,
- "Top Spin 2K 25": null
+ "Top Spin 2K 25": null,
+ "Dune: Awakening": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1172710/library_600x900.jpg",
+  "src": "steam",
+  "match": "Dune: Awakening"
+ }
 }
