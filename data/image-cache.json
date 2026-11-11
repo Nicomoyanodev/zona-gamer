@@ -10914,5 +10914,17 @@
   "src": "steam",
   "match": "Dune: Awakening"
  },
- "Battlefiel Hardline": null
+ "Battlefiel Hardline": null,
+ "Dragon Ball Z Battle Of Z": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/6/67/Dragon_Ball_Z_Dokkan_Battle_logo.png?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Dragon Ball Z: Dokkan Battle"
+ },
+ "Uncharted 2 Among Thieves": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/7/7b/Uncharted_2_box_artwork.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Uncharted 2: Among Thieves"
+ },
+ "Shift 2 Unleashe": null,
+ "DIRT3": null
 }
