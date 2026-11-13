@@ -10926,5 +10926,18 @@
   "match": "Uncharted 2: Among Thieves"
  },
  "Shift 2 Unleashe": null,
- "DIRT3": null
+ "DIRT3": null,
+ "Cars 3": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/1/1e/PC3_Cover.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Project CARS 3"
+ },
+ "Sonic Forces Juego Apex Legends Bloodhound": null,
+ "Crash Bandicoot 4": null,
+ "Crash Bandicoot Nsan Trilogy": null,
+ "Crash Team Racing Ctr Nitro Fueled": {
+  "url": "https://upload.wikimedia.org/wikipedia/en/3/36/Crash_Team_Racing_Nitro-Fueled_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
+  "src": "wikipedia-en",
+  "match": "Crash Team Racing Nitro-Fueled"
+ }
 }
