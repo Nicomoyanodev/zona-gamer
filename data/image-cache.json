@@ -10939,5 +10939,10 @@
   "url": "https://upload.wikimedia.org/wikipedia/en/3/36/Crash_Team_Racing_Nitro-Fueled_cover_art.jpg?utm_source=en.wikipedia.org&utm_campaign=api&utm_content=thumbnail_unscaled",
   "src": "wikipedia-en",
   "match": "Crash Team Racing Nitro-Fueled"
+ },
+ "God Of War": {
+  "url": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1593500/library_600x900.jpg",
+  "src": "steam",
+  "match": "God of War"
  }
 }
