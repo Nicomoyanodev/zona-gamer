@@ -162,10 +162,14 @@ function parsePromo(wb, sheet, { platform, pick, label }) {
 // ---------- Preventas ----------
 function parsePreventas(wb) {
   const items = [];
+  // La columna E solo es una oferta si el encabezado lo dice. El 18/11/2026 el proveedor dejó un número suelto (46345) al lado
+  // de GTA VI y GTA VI ULTIMATE, en una columna sin título, y el catálogo lo mostraba como oferta de $92.700 para los dos.
+  let hasOferta = false;
   for (const { row } of rows(wb, 'PREVENTAS')) {
     const title = str(row[2]);
-    if (!title || /^Descripcion$/i.test(title)) continue;
-    const { price, oldPrice } = priceFrom(row[3], row[4]);
+    if (/^Descripcion$/i.test(title)) { hasOferta = /oferta/i.test(str(row[4])); continue; }
+    if (!title) continue;
+    const { price, oldPrice } = priceFrom(row[3], hasOferta ? row[4] : null);
     if (!price) continue;
     const plat = (title.match(/\bPS[345]\b/i) || [str(row[1]) || 'PS5'])[0].toUpperCase();
     const name = title.replace(/\s+PS[345]\s*$/i, '').trim();
