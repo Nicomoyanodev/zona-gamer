@@ -138,7 +138,7 @@ function parseLines(lines, { platform, condition, file }) {
   const items = [];
   let cols = { stock: 424 };          // posición x de cada columna (por defecto, el formato sin precios)
   let name = [], stock = null, price = null, currency = 'ARS';
-  const isHeader = t => /Zona Gamer S\.A\.S|Av Duartes|Listado de Precios|Powered by|^\d+ \/ \d+$/i.test(t);
+  const isHeader = t => /Zona Gamer S\.A\.S|Av Duartes|Listado de Precios|Powered by|^(?:Page|P[aá]gina|P[aá]g\.?)?\s*\d+\s*\/\s*\d+$/i.test(t);
 
   // A qué columna numérica pertenece una celda: la de encabezado más cercana en x
   const columnOf = x => {
@@ -165,8 +165,9 @@ function parseLines(lines, { platform, condition, file }) {
       continue;
     }
     if (isHeader(text)) continue;
-    // Línea de categoría: "SONY - JUEGOS PS4 NUEVOS" o "SONY - Juego Usado Ps3"
-    if (/^[A-Z0-9ÁÉÍÓÚÑ ]+\s-\s*JUEGOS?\b/i.test(text)) {
+    // Línea de categoría: "SONY - JUEGOS PS4 NUEVOS", "SONY - Juego Usado Ps3" o, desde el 18/11/2026,
+    // sin la marca: "JUEGOS PS5 NUEVOS". Nunca trae números (un producto sí: stock y precio).
+    if (/^(?:[A-Z0-9ÁÉÍÓÚÑ ]+\s-\s*)?JUEGOS?\b/i.test(text) && !row.some(c => isNumberish(c.s))) {
       if (name.length && stock > 0) {
         const raw = name.join(' ');
         const plat = /\b3DS\b/i.test(raw) ? '3DS' : platform;
